@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/style.css">
-    <title><%= pageTitle%></title>
-
-
+<%-include('./includes/head.ejs') %>
 </head>
 <body>
-    <header>
-        <h1>Error 404 - PAGE NOT FOUND!!!!!ejs!!!!!!!!!</h1>
-    </header>
-    
-</body>
-</html>
+    <%-include('./includes/nav.ejs') %>
+        <section>
+            <h1>Error 404 - PAGE NOT FOUND!!!!!ejs!!!!!!!!!</h1>
+        </section>
+<%-include('./includes/end.ejs') %>
