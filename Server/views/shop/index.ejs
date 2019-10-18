@@ -1,29 +1,39 @@
 <%- include('../includes/head.ejs') %>
 </head>
+
 <body>
     <%- include('../includes/nav.ejs') %>
 
     <section>
-       <h1>My Products</h1>
-       <p>List of all Products</p>
-       
-       <!-- JS -->
-
-        <% if (prods.length > 0 ){%>
+        <div class="card">
+            <div class="productos">
+            <h1>My Products</h1>
+            <p>List of all Products</p>
+            <!-- JS -->
+            <% if (prods.length > 0 ){%>
             <% for (let product of prods){%>
 
-            <h1> titulo: <%= product.title %> </h1>
-            <h1> imagen: <%= product.id %> </h1>
-            
-            <h1> imagen: <%= product.imageUrl %> </h1>
-            <h1> precio: <%= product.price %> </h1>
-            <h1> descripcion: <%= product.description %> </h1>
-            
-            <%}%>
-        <%}else{%>
-            <h1>No product found</h1>
-        <%}%>
+            <div class="prod">
+                <div class="imag">
+                    <h1> imagen: <%= product.imageUrl %> </h1>
 
+                </div>
+                <div class="item">
+                    <h1> titulo: <%= product.title %> </h1>
+                    <h1> id: <%= product.id %> </h1>
+                    <h1> precio: <%= product.price %> </h1>
+                    <h1> descripcion: <%= product.description %> </h1>
+
+                </div>
+
+            </div>
+
+            <%}%>
+            <%}else{%>
+            <h1>No product found</h1>
+            <%}%>
+            </div>
+        </div>
     
     </section>
 <%- include('../includes/end.ejs') %>
