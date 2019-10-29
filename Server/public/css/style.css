@@ -1,39 +1,18 @@
+.btn {
+  border: 3px solid black;
+  border-radius: 30px;
+}
+
 body {
   display: -ms-grid;
   display: grid;
-  grid-template: ". header ." 15vh ". section ." 75vh "footer footer footer" 10vh / 1fr 2fr 1fr;
+  grid-template: ". header ." 15vh ". section ." auto ". footer ." 10vh / 0.5fr 2fr 0.5fr;
 }
 
 .prod {
-  border: 3px solid black;
-  border-radius: 30px;
-  display: -ms-grid;
-  display: grid;
-  grid-template: "imag item"  "imag item";
-  -ms-grid-columns: (minmax(200px, 1fr))[auto-fit];
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  padding: 3%;
-  margin: 1%;
-}
-
-.prod .imag {
-  display: -ms-grid;
-  display: grid;
-  grid-area: imag;
-}
-
-.prod .item {
-  display: -ms-grid;
-  display: grid;
-  grid-area: item;
-}
-
-.productos {
-  width: 80%;
-  margin: auto;
-}
-
-.card {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
   border: 1px solid black;
   border-radius: 30px;
   /* z-index: inherit; */
@@ -53,9 +32,53 @@ body {
   -webkit-box-shadow: 7px 7px 0px 0px black;
           box-shadow: 7px 7px 0px 0px black;
   background: repeating-linear-gradient(191deg, #2196f324, #00968838 52px);
+  margin-bottom: 30px;
+  display: -ms-grid;
+  display: grid;
+  grid-template: "imag item"  "imag item";
+  -ms-grid-columns: (minmax(150px, 1fr))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  font-size: 1rem;
+}
+
+.prod .imag {
+  display: -ms-grid;
+  display: grid;
+  grid-area: imag;
+}
+
+.prod .item {
+  display: -ms-grid;
+  display: grid;
+  grid-area: item;
+}
+
+.productos {
+  width: 80%;
+  margin: auto;
 }
 
 header {
+  border: 1px solid black;
+  border-radius: 30px;
+  /* z-index: inherit; */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.8rem;
+  /* box-shadow: inset 6px 4px 9px 0px black; */
+  /* color: #5e2626; */
+  /* text-shadow: 7px 3px 4px black; */
+  -webkit-box-shadow: 7px 7px 0px 0px black;
+          box-shadow: 7px 7px 0px 0px black;
+  background: repeating-linear-gradient(191deg, #2196f324, #00968838 52px);
+  margin-bottom: 30px;
   display: -ms-grid;
   display: grid;
   grid-area: header;
@@ -63,34 +86,60 @@ header {
 }
 
 section {
-  border: 3px solid black;
+  border: 1px solid black;
   border-radius: 30px;
-  grid-area: section;
-  display: -ms-grid;
-  display: grid;
-  text-align: center;
-  background-color: #30acac;
-}
-
-footer {
-  grid-area: footer;
-  display: -ms-grid;
-  display: grid;
-  background-color: darkcyan;
-}
-
-.navbar {
-  border: 3px solid black;
-  border-radius: 30px;
+  /* z-index: inherit; */
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.8rem;
+  /* box-shadow: inset 6px 4px 9px 0px black; */
+  /* color: #5e2626; */
+  /* text-shadow: 7px 3px 4px black; */
+  -webkit-box-shadow: 7px 7px 0px 0px black;
+          box-shadow: 7px 7px 0px 0px black;
+  background: repeating-linear-gradient(191deg, #2196f324, #00968838 52px);
+  margin-bottom: 30px;
+  grid-area: section;
+  display: -ms-grid;
+  display: grid;
+  text-align: center;
+}
+
+footer {
+  border: 1px solid black;
+  border-radius: 30px;
+  /* z-index: inherit; */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.8rem;
+  /* box-shadow: inset 6px 4px 9px 0px black; */
+  /* color: #5e2626; */
+  /* text-shadow: 7px 3px 4px black; */
+  -webkit-box-shadow: 7px 7px 0px 0px black;
+          box-shadow: 7px 7px 0px 0px black;
+  background: repeating-linear-gradient(191deg, #2196f324, #00968838 52px);
+  margin-bottom: 30px;
+  width: auto;
+  grid-area: footer;
+  display: -ms-grid;
+  display: grid;
+}
+
+.navbar {
   font-size: 1.5rem;
 }
 

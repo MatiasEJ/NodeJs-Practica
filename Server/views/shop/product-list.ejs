@@ -4,27 +4,39 @@
     <%- include('../includes/nav.ejs') %>
 
     <section>
-       <h1>My Products</h1>
-       <p>List of all Products</p>
-       <!-- JS -->
-
-        <% if (prods.length > 0 ){%>
+        <div >
+            <div class="productos">
+            <h1>My Products</h1>
+            <p>List of all Products</p>
+            <!-- JS -->
+            <% if (prods.length > 0 ){%>
             <% for (let product of prods){%>
-            <h1> > <%= product.title %> </h1>
-            <h1> > <%= product.imageUrl %> </h1>
-            <h1> > <%= product.price %> </h1>
-            <h1> > <%= product.description %> </h1>
-            <form action="/add-to-cart" method="POST">
-                <a href="/products/<%= product.id %>">details</a>
-                <button type="submit">add-to-cart</button>
-            </form>
-            
-            
-            <%}%>
-        <%}else{%>
-            <h1>No product found</h1>
-        <%}%>
 
+            <div class="prod">
+                <div class="imag">
+                    <h1> imagen: <%= product.imageUrl %> </h1>
+
+                </div>
+                <div class="item">
+                    <h1> titulo: <%= product.title %> </h1>
+                    <h1> id: <%= product.id %> </h1>
+                    <h1> precio: <%= product.price %> </h1>
+                    <h1> descripcion: <%= product.description %> </h1>
+
+                </div>
+                <a href="/products/<%=product.id%>" class="btn">DETAILS</a>
+                <form action="/cart" method="POST">
+                    <button type="submit">ADD TO CART</button>
+                    <input type="hidden" name="productId" value="<%= product.id %>">
+                </form>
+            </div>
+
+            <%}%>
+            <%}else{%>
+            <h1>No product found</h1>
+            <%}%>
+            </div>
+        </div>
     
     </section>
 <%- include('../includes/end.ejs') %>

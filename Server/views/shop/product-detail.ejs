@@ -1,0 +1,28 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %>
+
+    <section>
+       <h1>Detalles de producto</h1>
+       <div class="prod">
+            <div class="imag">
+                <h1> imagen: <%= product.imageUrl %> </h1>
+
+            </div>
+            <div class="item">
+                <h1> titulo: <%= product.title %> </h1>
+                <h1> id: <%= product.id %> </h1>
+                <h1> precio: <%= product.price %> </h1>
+                <h1> descripcion: <%= product.description %> </h1>
+
+            </div>
+            <form action="/cart" method="POST">
+                <button type="submit">ADD TO CART</button>
+                <input type="hidden" name="productId" value="<%= product.id %>">
+            </form>
+        </div>
+      
+    
+    </section>
+<%- include('../includes/end.ejs') %>
