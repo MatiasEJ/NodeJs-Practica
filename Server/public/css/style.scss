@@ -1,5 +1,21 @@
+@mixin btnfy{
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+    background-color: #ededed;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #777777;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+@mixin cardify {
 
-@mixin cardi{
     border: 1px solid black;
     border-radius: 30px;
     /* z-index: inherit; */
@@ -13,111 +29,178 @@
     -ms-flex-align: center;
     align-items: center;
     font-size: 1.8rem;
-    /* box-shadow: inset 6px 4px 9px 0px black; */
-    /* color: #5e2626; */
-    /* text-shadow: 7px 3px 4px black; */
     box-shadow: 7px 7px 0px 0px black;
     background: repeating-linear-gradient(191deg, #2196f324, #00968838 52px);
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+
 }
+
+.card {
+    border: 1px solid black;
+    border-radius: 30px;
+    /* z-index: inherit; */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 1.8rem;
+    box-shadow: 7px 7px 0px 0px black;
+    background: repeating-linear-gradient(191deg, #2196f324, #00968838 52px);
+    margin-bottom: 20px;
+}
+
 @mixin flexCenter {
     display: flex;
     justify-content: center;
-    align-items: center;
+
 }
 
-@mixin btn {
-    border: 3px solid black;
-    border-radius: 30px;    
-}
 
-.btn{
-    border: 3px solid black;
-    border-radius: 30px;    
-}
 
-body{
+
+
+body {
     display: grid;
-    
-    grid-template: 
-    ". header ." 15vh
-    ". section ." auto
-    ". footer ." 10vh
-    / 0.5fr 2fr 0.5fr;                    
-}
+    grid-template:
+        ". header ."15vh ". section ."auto ". footer ."10vh / 0.5fr 2fr 0.5fr;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
-.prod{
-    width: max-content;
-    @include cardi();
-    display: grid;
-    grid-template: 
-    "imag item" 
-    "imag item"; 
-    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
-    font-size: 1rem;
-    
-   
-
-    .imag{
-    
-        display: grid;
-        grid-area: imag;
-       
-        
-    }
-    .item{
-        display: grid;
-        grid-area: item;
-        
-    }
-    
-   
 }
 
 .productos{
-    width: 80%;
-    margin: auto;
+    margin: 5% 0%;
+}
+
+.prod {
+    @include cardify();
+    
+    display: grid;
+    grid-template:
+        "imag item"
+        "opt opt";
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    font-size: 1rem;
+
+
+
+    .imag {
+        @include flexCenter();
+        
+       
+        grid-area: imag;
+        margin: 2%;
+
+    }
+
+    .item {
+        display: grid;
+        grid-area: item;
+        margin: 2%;
+
+    }
+
+    .opt {
+        display: flex;
+        justify-content: center;
+        grid-area: opt;
+        padding: 12px;
+    }
+
+
 }
 
 
 
-header{
-    @include cardi();
+
+
+header {
+
     display: grid;
     grid-area: header;
     background-color: antiquewhite;
-    
+
 }
-section{
-    @include cardi();
+
+section {
+
     grid-area: section;
     display: grid;
     text-align: center;
-    
+
 }
-footer{
-    @include cardi();
+
+footer {
     width: auto;
     grid-area: footer;
     display: grid;
-   
+
 }
 
 
 .navbar {
-   
-    font-size: 1.5rem;
-    a{
+    text-align: center;
+
+    a {
         text-decoration: none;
     }
-    ul{
-        @include flexCenter();
-        display: flex;
+
+    ul {
+        
+        padding: 5px;
         list-style: none;
-        li{
-            @include flexCenter();
-            margin: 4%;
-            text-align: center; 
+
+        li {
+            display: inline;
+            a{
+                
+                @include btnfy();
+                margin: 1% 0%;
+            }
+            
+            
+            text-align: center;
         }
     }
+}
+
+
+.btn {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+    background-color: #ededed;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #777777;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+
+.btn:hover {
+    background: linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+    background-color: #dfdfdf;
+}
+
+.btn:active {
+    position: relative;
+    top: 1px;
+}
+
+
+textarea{
+    width: 165px;
+}
+form{
+    text-align: right;
+    text-align-last: justify;
 }

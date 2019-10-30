@@ -1,11 +1,12 @@
 <%- include('../includes/head.ejs') %>
 </head>
+
 <body>
     <%- include('../includes/nav.ejs') %>
-    <section>
-        <div >
-            <div class="productos">
-            <h1>My Products</h1>
+    <section class="card">
+
+        <div class="productos">
+            <h1>My ADMIN PRODUCTS</h1>
             <p>List of all Products</p>
             <!-- JS -->
             <% if (prods.length > 0 ){%>
@@ -13,7 +14,7 @@
 
             <div class="prod">
                 <div class="imag">
-                    <h1> imagen: <%= product.imageUrl %> </h1>
+                    <h1> <img src="<%= product.imageUrl %>" alt="imagen"></h1>
 
                 </div>
                 <div class="item">
@@ -24,11 +25,15 @@
 
                 </div>
 
-                <a href="/admin/edit-product" class="btn">EDIT</a>
-                <form action="/admin/delete-prod" method="post">
-                    <a href="/admin/delete-prod" class="btn">DELETE</a>
-                </form>
-                
+                <div class="opt">
+                    
+                    <form action="/cart" method="POST">
+                        
+                        <button type="submit" href="/admin/edit-product/<%=product.id%>?edit=true" class="btn">EDIT</button>
+                        <input type="hidden" name="productId" value="<%= product.id %>">
+                    </form>
+                </div>
+
 
             </div>
 
@@ -36,8 +41,8 @@
             <%}else{%>
             <h1>No product found</h1>
             <%}%>
-            </div>
         </div>
+       
     
     </section>
     

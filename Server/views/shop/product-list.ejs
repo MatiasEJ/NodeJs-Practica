@@ -3,8 +3,8 @@
 <body>
     <%- include('../includes/nav.ejs') %>
 
-    <section>
-        <div >
+    <section class="card">
+     
             <div class="productos">
             <h1>My Products</h1>
             <p>List of all Products</p>
@@ -14,7 +14,7 @@
 
             <div class="prod">
                 <div class="imag">
-                    <h1> imagen: <%= product.imageUrl %> </h1>
+                    <h1> <img src="<%= product.imageUrl %>" alt="imagen"></h1>
 
                 </div>
                 <div class="item">
@@ -24,11 +24,13 @@
                     <h1> descripcion: <%= product.description %> </h1>
 
                 </div>
-                <a href="/products/<%=product.id%>" class="btn">DETAILS</a>
-                <form action="/cart" method="POST">
-                    <button type="submit">ADD TO CART</button>
-                    <input type="hidden" name="productId" value="<%= product.id %>">
-                </form>
+                <div class="opt">
+                    <a class="btn" href="/products/<%=product.id%>" class="btn">DETAILS</a>
+                    <form action="/cart" method="POST">
+                        <button type="submit" class="btn">ADD TO CART</button>
+                        <input type="hidden" name="productId" value="<%= product.id %>">
+                    </form>
+                </div>
             </div>
 
             <%}%>
@@ -36,7 +38,7 @@
             <h1>No product found</h1>
             <%}%>
             </div>
-        </div>
+    
     
     </section>
 <%- include('../includes/end.ejs') %>
