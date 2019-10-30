@@ -2,7 +2,7 @@ const Product = require('../model/product');
 
 exports.getAddProduct = (req, res, next) => {
     // res.sendFile(path.join(rootDir,'views','add-product.html'));
-    res.render('admin/add-product',
+    res.render('admin/edit-product',
     {pageTitle: 'Add Product', 
     path: '/admin/add-product'
     });
@@ -16,6 +16,15 @@ exports.postAddProduct =  (req, res, next) => {
     const product = new Product(title,imgUrl,price,description);
     product.save();
     res.redirect('/');
+};
+
+exports.getEditProduct = (req, res, next) => {
+    // res.sendFile(path.join(rootDir,'views','add-product.html'));
+    res.render('admin/edit-product',
+    {pageTitle: 'Add Product', 
+    path: '/admin/add-product',
+    editing : true
+    });
 };
 
 
