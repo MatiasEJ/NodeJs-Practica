@@ -2,9 +2,9 @@ const Product = require('../model/product');
 
 exports.getAddProduct = (req, res, next) => {
     // res.sendFile(path.join(rootDir,'views','add-product.html'));
-    res.render('admin/edit-product',
+    res.render('admin/add-product',
     {pageTitle: 'Add Product', 
-    path: '/admin/edit-product',
+    path: '/admin/add-product',
     editing: false
     });
 };

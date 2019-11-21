@@ -1,12 +1,14 @@
 const Product = require('../model/product');
 const Cart = require('../model/cart')
 
+
 exports.getProducts = (req, res, next) => {
   Product.fetchAll(products=>{
         res.render('shop/product-list',{
             prods: products,
             pageTitle: 'All Products', 
-            path:'/products'
+            path:'/'
+            
         });
     
     });    
@@ -21,6 +23,7 @@ exports.getProduct = (req, res, next) => {
             path: '/products'
         });
     });
+    
     
   
   };

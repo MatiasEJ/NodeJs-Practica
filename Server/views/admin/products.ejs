@@ -26,11 +26,12 @@
                 </div>
 
                 <div class="opt">
-                    
-                    <form action="/cart" method="POST">
-                        
-                        <button type="submit" href="/admin/edit-product/<%=product.id%>?edit=true" class="btn">EDIT</button>
+                        <a type="submit" href="/admin/edit-product/<%=product.id%>?edit=true" class="btn">EDIT</a>
                         <input type="hidden" name="productId" value="<%= product.id %>">
+                    <form action="/delete-product" method="POST">
+                        
+                        <button type="submit"   class="btn">delete</button>
+                        
                     </form>
                 </div>
 

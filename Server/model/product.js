@@ -7,20 +7,20 @@ const p = path.join(
 );
 
 const getProductsFromFile = (cb) =>{
-    
+  
     fs.readFile(p, (err, fileContent) => {
             if (err){
                 cb([]);
             } else {
                 cb(JSON.parse(fileContent));
             }
-        })
+    })
 }
 
 
 module.exports = class Product {
     constructor(title, imageUrl, price, description){
-
+        
         this.title = title;
         this.imageUrl = imageUrl;
         this.price = price;
@@ -29,7 +29,7 @@ module.exports = class Product {
     }
 
     save() {
-        this.id = Math.random().toString();
+        this.id = Math.floor((Math.random() * 10) + 1).toString();
         getProductsFromFile(products=>{
             products.push(this);
             fs.writeFile(p,JSON.stringify(products),(err)=>{
