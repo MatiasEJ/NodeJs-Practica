@@ -8,8 +8,7 @@ const errorController = require('./controlers/error');
 const app = express(); 
 var PORT = process.env.PORT || 5000;
 
-var http = require('http');
-var server = http.Server(app);
+
 
 app.set('view engine','ejs');
 app.set('views','views');
@@ -38,4 +37,4 @@ app.use(errorController.errorHand);
 // const server = http.createServer(app);
 // server.listen(3000);
 
-server.listen(PORT, p => console.log('chat running'));
+app.listen(PORT);
