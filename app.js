@@ -6,10 +6,10 @@ const express = require('express');
 const bodyParser= require('body-parser');
 const errorController = require('./controlers/error');
 const app = express(); 
-var PORT = process.env.PORT || 5000;
 
 
 
+app.set('port',(process.env.PORT || 3000));
 app.set('view engine','ejs');
 app.set('views','views');
 
@@ -37,4 +37,7 @@ app.use(errorController.errorHand);
 // const server = http.createServer(app);
 // server.listen(3000);
 
-app.listen(PORT);
+app.listen(app.get('port'),function () {
+    console.log('Node running on port',app.get('port'));
+    
+});
