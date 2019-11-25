@@ -3,9 +3,26 @@
 <body>
     <%- include('../includes/nav.ejs') %>
 
-    <section>
-       <h1>CART</h1>
-      
-    
-    </section>
+    <section class="card">
+        
+        <div class="productos">
+                <h1>CARTS</h1>
+                <p>List of all Products</p>
+                <!-- JS -->
+                <% if(products.length > 0){%>
+                    <ul>
+                        <% products.forEach(p => {%>
+                            <li>Item: <%= p.productData.title%> Cantidad: (<%= p.qty %>) (<%= p.productData.price%>) </li>
+                        <% }) %>
+
+
+                    </ul>
+                    <h3><%= cartTotal %></h3>
+                <%}else{%>
+                    <h1>NO PRODS</h1>
+                <%}%>
+               
+        </div>
+
+</section>
 <%- include('../includes/end.ejs') %>

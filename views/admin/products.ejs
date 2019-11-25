@@ -4,7 +4,7 @@
 <body>
     <%- include('../includes/nav.ejs') %>
     <section class="card">
-
+        
         <div class="productos">
             <h1>My ADMIN PRODUCTS</h1>
             <p>List of all Products</p>
@@ -20,16 +20,17 @@
                 <div class="item">
                     <h1> titulo: <%= product.title %> </h1>
                     <h1> id: <%= product.id %> </h1>
+                    
                     <h1> precio: <%= product.price %> </h1>
                     <h1> descripcion: <%= product.description %> </h1>
 
                 </div>
 
                 <div class="opt">
-                        <a type="submit" href="/admin/edit-product/<%=product.id%>?edit=true" class="btn">EDIT</a>
-                        
-                    <form action="/delete-product" method="POST">
-                        
+                        <a href="/admin/edit-product/<%=product.id%>?edit=true" class="btn">EDIT</a>
+                         
+                    <form action="/admin/delete-product" method="POST">
+                        <input type="hidden" value="<%= product.id %>" name="productId"> 
                         <button type="submit"   class="btn">delete</button>
                         
                     </form>
@@ -44,7 +45,7 @@
             <%}%>
         </div>
        
-    
+        
     </section>
     
 <%- include('../includes/end.ejs') %>
