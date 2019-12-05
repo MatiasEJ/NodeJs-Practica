@@ -3,15 +3,17 @@ const Cart = require('../model/cart')
 
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products=>{
+  Product.fetchAll()
+    .then(([row])=>{
         res.render('shop/product-list',{
-            prods: products,
+            prods: row,
             pageTitle: 'All Products', 
             path:'/'
             
         });
-    
-    });    
+    })
+    .catch((err)=>{console.log(err)});   
+     
 
 };
 exports.getProduct = (req, res, next) => {
@@ -29,13 +31,16 @@ exports.getProduct = (req, res, next) => {
   };
 
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll(products=>{
-        res.render('shop/index',{
-            prods: products,
-            pageTitle: 'shop', 
-            path:'/'
-        });
-    });    
+    Product.fetchAll()
+        .then(([rows,fieldData])=>{
+            res.render('shop/index',{
+                prods: rows,
+                pageTitle: 'shop', 
+                path:'/'
+            });
+        })
+        .catch(err=>{console.log(err);});
+        
 
 };
 

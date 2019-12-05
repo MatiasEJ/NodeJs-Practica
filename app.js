@@ -6,12 +6,18 @@ const express = require('express');
 const bodyParser= require('body-parser');
 const errorController = require('./controlers/error');
 const app = express(); 
+const db = require('./util/db');
 
 
 
 app.set('port',(process.env.PORT || 3000));
 app.set('view engine','ejs');
 app.set('views','views');
+
+// db.execute('SELECT * FROM products')
+//     .then((result)=>{console.log(result);})
+//     .catch(err=>{ console.log(err);})
+
 
 //Usamos templates, js, ejs/jade/handlebars
 
