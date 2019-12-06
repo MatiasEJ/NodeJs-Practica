@@ -7,6 +7,8 @@ const bodyParser= require('body-parser');
 const errorController = require('./controlers/error');
 const app = express(); 
 const sequelize = require('./util/db');
+const Product = require('./model/product');
+const User = require('./model/user');
 
 
 
@@ -37,16 +39,29 @@ app.use(errorController.errorHand);
 
 
 
-
+/** RELACIONES **/
+Product.belongsTo(User,{ constraints: true, onDelete: 'CASCADE'});
+User.hasMany(Product);
 
 
 //Creacion server
 // const server = http.createServer(app);
 // server.listen(3000);
 
-sequelize.sync()
+sequelize.sync( )
     .then(result=>{
-        // console.log(result);
+        return User.findByPk(1)
+        
+    })
+    .then(user=>{
+        if(!user){
+            return User.create({nombre: 'matias',email: 'texto@gmail.com'})
+        }else{
+            return Promise.resolve(user);
+        }
+    })
+    .then(user =>{
+        
         app.listen(app.get('port'),function () {
             console.log('Node running on port',app.get('port'));
             
