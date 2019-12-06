@@ -37,6 +37,17 @@ app.use(shopRoutes);
 
 app.use(errorController.errorHand);
 
+/**RETRIEVE USER**/
+app.use((req,res,next)=>{
+    User.findByPk(1)
+    .then(user=>{
+        req.user= user;
+        next();
+    })
+    .catch(err=>console.log(err));
+});
+
+
 
 
 /** RELACIONES **/
@@ -48,14 +59,16 @@ User.hasMany(Product);
 // const server = http.createServer(app);
 // server.listen(3000);
 
-sequelize.sync( )
+sequelize
+    // .sync({ force: true})
+    .sync()
     .then(result=>{
-        return User.findByPk(1)
+        return User.findByPk(1);
         
     })
     .then(user=>{
         if(!user){
-            return User.create({nombre: 'matias',email: 'texto@gmail.com'})
+            return User.create({nombre: 'matias', email: 'texto@gmail.com'})
         }else{
             return Promise.resolve(user);
         }
