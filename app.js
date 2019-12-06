@@ -6,7 +6,8 @@ const express = require('express');
 const bodyParser= require('body-parser');
 const errorController = require('./controlers/error');
 const app = express(); 
-const db = require('./util/db');
+const sequelize = require('./util/db');
+
 
 
 
@@ -43,7 +44,13 @@ app.use(errorController.errorHand);
 // const server = http.createServer(app);
 // server.listen(3000);
 
-app.listen(app.get('port'),function () {
-    console.log('Node running on port',app.get('port'));
-    
-});
+sequelize.sync()
+    .then(result=>{
+        // console.log(result);
+        app.listen(app.get('port'),function () {
+            console.log('Node running on port',app.get('port'));
+            
+        });
+    })
+    .catch(err=>{console.log(err)});
+

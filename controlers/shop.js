@@ -2,44 +2,50 @@ const Product = require('../model/product');
 const Cart = require('../model/cart')
 
 
+
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
-    .then(([row])=>{
+    
+    Product.findAll()
+    .then(products=>{
         res.render('shop/product-list',{
-            prods: row,
+            prods: products,
             pageTitle: 'All Products', 
             path:'/'
             
         });
+        res.render('shop/index',{
+            prods: products,
+            pageTitle: 'shop', 
+            path:'/'
+        });
     })
-    .catch((err)=>{console.log(err)});   
-     
+    .catch(err=>console.log(err));
 
 };
 exports.getProduct = (req, res, next) => {
     const prodId = req.params.productId;
-    Product.findById(prodId, product =>{
+    Product.findAll({where: {id: prodId}})
+    // Product.findById(prodId)
+    .then(products =>{
         res.render('shop/product-detail',{
-            product: product, 
-            pageTitle: product.title,
+            product: products[0], 
+            pageTitle: products[0].title,
             path: '/products'
         });
-    });
-    
-    
-  
-  };
+    })
+    .catch(err=>console.log(err));  
+};
 
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll()
-        .then(([rows,fieldData])=>{
-            res.render('shop/index',{
-                prods: rows,
-                pageTitle: 'shop', 
-                path:'/'
-            });
-        })
-        .catch(err=>{console.log(err);});
+    Product.findAll()
+    .then(products=>{
+        res.render('shop/index',{
+            prods: products,
+            pageTitle: 'shop', 
+            path:'/'
+        });
+    })
+    .catch(err=>console.log(err));
         
 
 };
@@ -47,7 +53,7 @@ exports.getIndex = (req, res, next) => {
 exports.getCart = (req, res, next) => {
     Cart.getCart(cart => {
         let cartTotal = parseInt(cart.totalPrice);
-        console.log(cartTotal);
+        
         Product.fetchAll(products =>{
             const cartProducts = [];
             
@@ -79,7 +85,7 @@ exports.postCart= (req,res,next) =>{
 
 exports.postCartDelete = (req,res,next) => {
     const prodId = req.body.productId;
-    console.log(prodId);
+  
     Product.findById(prodId,product =>{
         Cart.deleteProduct(prodId,product.price);
         res.redirect('/cart');
