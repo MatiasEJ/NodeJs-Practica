@@ -2,19 +2,19 @@ const Sequelize = require('sequelize');
 const sequelize = require('../util/db');
 
 const User = sequelize.define('user',{
-    userId:{
+    id:{
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    nombre:{
-        type: Sequelize.TEXT,
-        allowNull: false
+    name:{
+        type: Sequelize.STRING
+        
     },
     email:{
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
+       
     }
     
 });

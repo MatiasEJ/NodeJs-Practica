@@ -1,4 +1,6 @@
 const Product = require('../model/product');
+const user = require('../model/user')
+
 
 exports.getAddProduct = (req, res, next) => {
     // res.sendFile(path.join(rootDir,'views','add-product.html'));
@@ -10,29 +12,27 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-
+    
     const title = req.body.title;
     const imgUrl = req.body.imgUrl;
     const price = req.body.price;
     const description = req.body.description;
-    req.user.createProduct({
+    
+    Product.create({
         title: title,
         price: price,
         imgUrl: imgUrl,
-        description: description
+        description: description,
+        userId: req.user.id
+        
     })
-    // Product.create({
-    //     title: title,
-    //     price: price,
-    //     imgUrl: imgUrl,
-    //     description: description
-    // })
     .then(() =>{ 
         console.log("Objeto Creado");
+        console.log(req.user.id)
         res.redirect('/admin/products');
     })
     .catch(err=>console.log(err));
-
+    
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -43,9 +43,11 @@ exports.getEditProduct = (req, res, next) => {
 
     }
     const prodId = req.params.productId;
+    req.user.getProducts({where: {id: prodId}})
     Product.findAll({where: {id: prodId}})
-    // Product.findById(prodId)
-    .then(product=>{
+    // Product.findByPk(prodId)
+    .then(products=>{
+        const product = products[0];
         if (!product) {
             res.redirect('/');
         }
@@ -58,7 +60,7 @@ exports.getEditProduct = (req, res, next) => {
         });
     })
     .catch(err=>console.log(err));
-    // Product.findById(prodId, product => {
+    // Product.findByPk(prodId, product => {
     //     if (!product) {
     //         res.redirect('/');
     //     }
@@ -117,12 +119,13 @@ exports.getProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
+    console.log("A eliminar "+ prodId);
     Product.findByPk(prodId)
     .then(product =>{
-        product.destroy();
+        return product.destroy();
     })
     .then(()=>{
-        console.log("DESTRUIDO: "+product.title);
+        console.log("DESTRUIDO: ");
         res.redirect('/admin/products');
     }).catch(err=>console.log("Error en: "+err))
     
