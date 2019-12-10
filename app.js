@@ -9,7 +9,8 @@ const errorController = require('./controlers/error');
 const sequelize = require('./util/db');
 const Product = require('./model/product');
 const User = require('./model/user');
-
+const Cart = require('./model/cart');
+const CartItem =require('./model/cart-item');
 const app = express(); 
 
 
@@ -57,6 +58,12 @@ app.use(errorController.errorHand);
 /** RELACIONES **/
 Product.belongsTo(User,{ constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product,{through: CartItem});
+Product.belongsToMany(Cart,{through: CartItem});
+
+
 
 
 //Creacion server
@@ -64,8 +71,8 @@ User.hasMany(Product);
 // server.listen(3000);
 
 sequelize
-    // .sync({ force: true})
-    .sync()
+    .sync({ force: true})
+    // .sync()
     .then(()=>{
         
         return User.findByPk(1);
@@ -74,10 +81,14 @@ sequelize
     })
     .then(user=>{
         if(!user){
+            
             return User.create({nombre: 'matias', email: 'texto@gmail.com'})
         }
             return Promise.resolve(user);
         
+    })
+    .then((user)=>{
+        return user.createCart({where: {id:1}});
     })
     .then(user =>{
         
