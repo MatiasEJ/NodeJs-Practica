@@ -70,9 +70,9 @@ Product.belongsToMany(Cart, { through: CartItem} );
 // server.listen(3000);
 
 sequelize
-    .sync({ force: true})
-    // .sync()
-    .then( result =>{
+    // .sync({ force: true})
+    .sync()
+    .then( user =>{
         
         return User.findByPk(1);
        
@@ -80,14 +80,14 @@ sequelize
     })
     .then( user => {
         if(!user){
-            return User.create({nombre: 'matias', email: 'texto@gmail.com'})
+            return User.create({nombre: 'matias', email: 'texto@gmail.com'}).then( user => {
+                return user.createCart();
+            })
         }
         return user;
  
     })
-    .then( user => {
-        return user.createCart();
-    })
+   
     .then( user =>{
         app.listen(app.get('port'),() => {
             console.log('Node running on port',app.get('port'));
