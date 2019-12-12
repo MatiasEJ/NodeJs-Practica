@@ -30,10 +30,10 @@ exports.getProduct = (req, res, next) => {
     //   })
     //   .catch(err => console.log(err));
     Product.findByPk(prodId)
-      .then(product => {
+      .then(products => {
         res.render('shop/product-detail', {
-          product: product,
-          pageTitle: product.title,
+          product: products,
+          pageTitle: products.title,
           path: '/products'
         });
       })
@@ -95,6 +95,7 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart= (req,res,next) =>{
     const prodId = req.body.productId;
+    let prodPrice = req.body.price;
     let fetchedCart;
     let newQuant = 1 ;
     req.user.getCart()
@@ -109,8 +110,10 @@ exports.postCart= (req,res,next) =>{
         }
         
         if(product){
+            
             const oldQuant = product.cartItem.cantidad;
             newQuant = oldQuant+1;
+            prodPrice = prodPrice*newQuant;
             return product;
         }
         return Product.findByPk(prodId)
@@ -118,7 +121,7 @@ exports.postCart= (req,res,next) =>{
 
     })
     .then(product=>{
-        return fetchedCart.addProduct(product,{ through: { cantidad: newQuant}});
+        return fetchedCart.addProduct(product,{ through: { cantidad: newQuant, prodTotal: prodPrice}});
     })
     .then(product =>{
         res.redirect('/cart');

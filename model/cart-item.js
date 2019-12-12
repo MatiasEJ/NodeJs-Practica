@@ -8,7 +8,8 @@ const CartItem = sequelize.define('cartItem',{
         allowNull: false,
         primaryKey: true
     },
-    cantidad: Sequelize.INTEGER
+    cantidad: Sequelize.INTEGER,
+    totalItem: Sequelize.INTEGER
     
     
     
