@@ -14,7 +14,7 @@
                         <% products.forEach(p => {%>
                             <li>
                                 <p>
-                                    Item: <%= p.title%> Cantidad: (<%= p.cartItem.qty %>) (<%= p.price%>) (<%=p.id%>)
+                                    Item: <%= p.title%> Cantidad: (<%= p.cartItem.cantidad %>) (<%= p.price%>) (<%=p.id%>)
                                 </p>
                                 <form action="/cart-delete-item" method="POST">
                                     <input type="hidden" value="<%=p.id%>" name="productId">
@@ -25,7 +25,7 @@
 
 
                     </ul>
-                    <h3><p>TOTAL DEL CARRO: </p></h3>
+                    <h3><p>TOTAL DEL CARRO: <%= products.totalCarro %></p></h3>
                 <%}else{%>
                     <h1>NO PRODS</h1>
                 <%}%>

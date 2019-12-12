@@ -105,17 +105,22 @@ exports.postCart= (req,res,next) =>{
         let newQuant = 1 ;
         if(product){
             const oldQuant = product.cartItem.cantidad;
+             
             newQuant = oldQuant+1;
+            
             return fetchedCart.addProduct(product,{ through: { cantidad: newQuant}});
         }
         return Product.findByPk(prodId)
-        .then(product=>{
+            .then(product=>{
             return fetchedCart.addProduct(product,{ through: { cantidad: newQuant}});
-        })
-        .catch(err=>console.log(err));
+            })
+            .catch(err=>console.log(err));
 
     })
-    .catch();
+    .then(product =>{
+        res.redirect('/cart');
+    })
+    .catch(err=>console.log(err));
 
     // Product.findByPk(prodId,(product) =>{
     //     Cart.addProduct(prodId, product.price,product.title);
