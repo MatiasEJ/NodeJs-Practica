@@ -118,7 +118,7 @@ exports.postCart= (req,res,next) =>{
         if(product){
             const oldQuant = product.cartItem.cantidad;
             newQuant = oldQuant+1;
-            newProdPrice = prodPrice*newQuant
+            newProdPrice = prodPrice*newQuant;
             console.log("POSTCART"+oldQuant+newProdPrice+newQuant);
             return fetchedCart.addProduct(product,{ through: { cantidad: newQuant, totalItem: newProdPrice}});
         }
