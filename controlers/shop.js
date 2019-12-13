@@ -98,40 +98,37 @@ exports.postCart= (req,res,next) =>{
     let prodPrice = req.body.price;
     let fetchedCart;
     let newQuant = 1 ;
+    console.log(" ---> ide del producto <---  "+ prodId)
     req.user.getCart()
     .then(cart=>{
         fetchedCart = cart;
         return cart.getProducts({ where: {id: prodId}});
     })
     .then(products=>{
-        let product;
-        if(products.lenght > 0){
-            product = products[0];
-        }
         
-        if(product){
-            
-            const oldQuant = product.cartItem.cantidad;
+        if(products[0]){
+            const oldQuant = products[0].cartItem.cantidad;
             newQuant = oldQuant+1;
             prodPrice = prodPrice*newQuant;
-            return product;
+            console.log(" ---> ide del producto <---  "+ prodId)
+            return Promise.resolve(products);
         }
         return Product.findByPk(prodId)
             
 
     })
-    .then(product=>{
-        return fetchedCart.addProduct(product,{ through: { cantidad: newQuant, prodTotal: prodPrice}});
+    .then(products=>{
+        return fetchedCart.addProduct(products[0],{ through: { cantidad: newQuant, prodTotal: prodPrice}});
     })
-    .then(product =>{
+    .then(() =>{
         res.redirect('/cart');
     })
     .catch(err=>console.log(err));
 
-    // Product.findByPk(prodId,(product) =>{
-    //     Cart.addProduct(prodId, product.price,product.title);
-    // })
-    // res.redirect('/cart');
+    Product.findByPk(prodId,(product) =>{
+        Cart.addProduct(prodId, product.price,product.title);
+    })
+    
 };
 
 exports.postCartDelete = (req,res,next) => {
