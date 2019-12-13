@@ -7,10 +7,11 @@ exports.getProducts = (req, res, next) => {
     
     Product.findAll()
     .then(products=>{
+        
         res.render('shop/product-list',{
             prods: products,
             pageTitle: 'All Products', 
-            path:'/'
+            path:'/products'
             
         });
         
@@ -30,10 +31,10 @@ exports.getProduct = (req, res, next) => {
     //   })
     //   .catch(err => console.log(err));
     Product.findByPk(prodId)
-      .then(products => {
+      .then(product => {
         res.render('shop/product-detail', {
-          product: products,
-          pageTitle: products.title,
+          product: product,
+          pageTitle: product.title,
           path: '/products'
         });
       })
@@ -55,18 +56,21 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
+    
     req.user.getCart()
     .then(cart=>{
+       
+
         return cart.getProducts()
-        .then(products=>{
-            res.render('shop/cart',{ 
-                path: '/cart',
-                pageTitle: 'YourCart',
-                products: products
-                
-            });
-        })
-        .catch(err=>console.log(err));
+            .then( products => {
+                res.render('shop/cart',{ 
+                    path: '/cart',
+                    pageTitle: 'YourCart',
+                    products: products
+                    
+                });
+            })
+            .catch(err=>console.log(err));
     })
     .catch(err=>console.log(err));
     // Cart.getCart(cart => {
@@ -95,31 +99,37 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart= (req,res,next) =>{
     const prodId = req.body.productId;
-    let prodPrice = req.body.price;
+    const prodPrice = req.body.productPrice;
     let fetchedCart;
     let newQuant = 1 ;
-    console.log(" ---> ide del producto <---  "+ prodId)
+    console.log(" ---> ide del producto <---  "+ prodPrice)
     req.user.getCart()
     .then(cart=>{
         fetchedCart = cart;
         return cart.getProducts({ where: {id: prodId}});
     })
     .then(products=>{
-        
-        if(products[0]){
-            const oldQuant = products[0].cartItem.cantidad;
+        console.log("POSTCART");
+        let product;
+        if (products.length > 0){
+            product = products[0];
+        }
+        if(product){
+            const oldQuant = product.cartItem.cantidad;
             newQuant = oldQuant+1;
-            prodPrice = prodPrice*newQuant;
-            console.log(" ---> ide del producto <---  "+ prodId)
+            
+            console.log("POSTCART"+oldQuant+prodPrice+newQuant);
             return Promise.resolve(products);
         }
         return Product.findByPk(prodId)
+            .then(product =>{
+                return fetchedCart.addProduct(product,{ through: { cantidad: newQuant, prodTotal: prodPrice}});
+            })
+            .catch(err=>console.log(err));
             
 
     })
-    .then(products=>{
-        return fetchedCart.addProduct(products[0],{ through: { cantidad: newQuant, prodTotal: prodPrice}});
-    })
+    
     .then(() =>{
         res.redirect('/cart');
     })

@@ -80,9 +80,10 @@ sequelize
     })
     .then( user => {
         if(!user){
-            return User.create({nombre: 'matias', email: 'texto@gmail.com'}).then( user => {
-                return user.createCart();
-            })
+            return User.create({nombre: 'matias', email: 'texto@gmail.com'})
+                .then( user => {
+                    return user.createCart();
+                })
         }
         return user;
  
