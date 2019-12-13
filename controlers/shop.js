@@ -102,6 +102,7 @@ exports.postCart= (req,res,next) =>{
     const prodPrice = req.body.productPrice;
     let fetchedCart;
     let newQuant = 1 ;
+    let newProdPrice;
     console.log(" ---> ide del producto <---  "+ prodPrice)
     req.user.getCart()
     .then(cart=>{
@@ -117,13 +118,13 @@ exports.postCart= (req,res,next) =>{
         if(product){
             const oldQuant = product.cartItem.cantidad;
             newQuant = oldQuant+1;
-            
-            console.log("POSTCART"+oldQuant+prodPrice+newQuant);
-            return Promise.resolve(products);
+            newProdPrice = prodPrice*newQuant
+            console.log("POSTCART"+oldQuant+newProdPrice+newQuant);
+            return fetchedCart.addProduct(product,{ through: { cantidad: newQuant, totalItem: newProdPrice}});
         }
         return Product.findByPk(prodId)
             .then(product =>{
-                return fetchedCart.addProduct(product,{ through: { cantidad: newQuant, prodTotal: prodPrice}});
+                return fetchedCart.addProduct(product,{ through: { cantidad: newQuant, totalItem: newProdPrice}});
             })
             .catch(err=>console.log(err));
             

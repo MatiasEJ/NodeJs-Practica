@@ -16,6 +16,9 @@
                                 <p>
                                     Item: <%= p.title%> Cantidad: (<%= p.cartItem.cantidad %>) PRECIO: (<%= p.price%>) ID: (<%=p.id%>) )
                                 </p>
+                                <p>
+                                    <h3><p>TOTAL DEL CARRO: <%= p.cartItem.totalItem %></p></h3>
+                                </p>
                                 <form action="/cart-delete-item" method="POST">
                                     <input type="hidden" value="<%= p.id %>" name="productId">
                                     <button type="submit" class="btn">delete</button>
@@ -25,7 +28,7 @@
 
 
                     </ul>
-                    <h3><p>TOTAL DEL CARRO: <%= products.prodTotal %></p></h3>
+                    
                 <%}else{%>
                     <h1>NO PRODS</h1>
                 <%}%>
