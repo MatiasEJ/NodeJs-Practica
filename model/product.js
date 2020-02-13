@@ -18,9 +18,9 @@ class Product {
         return db.collection('products')
         .insertOne(this)
         .then(result =>{
-            console.log(result);
+            console.log("Producto salvado");
         })
-        .cath(err => {console.log(err)});
+        .catch(err => {console.log(err)});
       
     }
 }
