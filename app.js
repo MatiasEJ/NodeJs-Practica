@@ -5,11 +5,11 @@ const path = require('path');
 const express = require('express');
 const bodyParser= require('body-parser');
 const errorController = require('./controlers/error');
+const mongoConnect = require('./util/mongodb').mongoConnect;
 const app = express(); 
 
 
 
-app.set('port',(process.env.PORT || 3000));
 app.set('view engine','ejs');
 app.set('views','views');
 
@@ -17,16 +17,19 @@ app.set('views','views');
 
 
 const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+// const shopRoutes = require('./routes/shop');
 
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use('/admin',adminRoutes);
-app.use(shopRoutes);
+// app.use(shopRoutes);
+app.use((req,res,next) =>{
+    next();
+})
 
-app.use(errorController.errorHand);
+// app.use(errorController.errorHand);
 
 
 
@@ -37,7 +40,12 @@ app.use(errorController.errorHand);
 // const server = http.createServer(app);
 // server.listen(3000);
 
-app.listen(app.get('port'),function () {
-    console.log('Node running on port',app.get('port'));
+// app.listen(app.get('port'),function () {
+//     console.log('Node running on port',app.get('port'));
     
+// });
+
+mongoConnect( client =>{
+    console.log(client);
+    app.listen(3000);
 });
