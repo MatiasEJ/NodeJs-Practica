@@ -23,6 +23,14 @@ class Product {
         .catch(err => {console.log(err)});
       
     }
+
+    static fetchAll() {
+        return db.
+        collection('products')
+        .find();
+    }
+
+
 }
 
 
