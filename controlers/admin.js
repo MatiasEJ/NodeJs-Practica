@@ -1,4 +1,6 @@
 const Product = require('../model/product');
+const getDb = require('../util/mongodb').getDb;
+
 
 exports.getAddProduct = (req, res, next) => {
     // res.sendFile(path.join(rootDir,'views','add-product.html'));
@@ -11,17 +13,19 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct =  (req, res, next) => {
     
+    const id = Math.floor((Math.random() * 100) + 1);
+     
     const title = req.body.title;
     const imgUrl = req.body.imgUrl;
     const price = req.body.price;
     const description = req.body.description;
    
-    const product = new Product(title,imgUrl,price,description);
+    const product = new Product(id,title,imgUrl,price,description);
     product
     .save()
     .then(result =>{
         console.log("Producto creado!!");
-        res.redirect('/admin/add-products');
+        res.redirect('/');
     })
     .catch(err=>console.log(err));
     // res.redirect('/');

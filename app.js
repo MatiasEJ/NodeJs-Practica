@@ -22,9 +22,9 @@ app.set('views','views');
 
 /* ROUTES */
 const adminRoutes = require('./routes/admin');
-// const shopRoutes = require('./routes/shop');
+const shopRoutes = require('./routes/shop');
 app.use('/admin',adminRoutes);
-// app.use(shopRoutes);
+app.use(shopRoutes);
 
 
 /* APP REQUEST */

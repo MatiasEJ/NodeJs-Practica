@@ -3,15 +3,16 @@ const Cart = require('../model/cart')
 
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products=>{
+  Product.fetchAll()
+    .then( products=>{
         res.render('shop/product-list',{
             prods: products,
             pageTitle: 'All Products', 
-            path:'/'
+            path:'/products'
             
         });
     
-    });    
+    }).catch(err=>console.log(err));    
 
 };
 exports.getProduct = (req, res, next) => {
@@ -29,7 +30,7 @@ exports.getProduct = (req, res, next) => {
   };
 
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll(products=>{
+    Product.fetchAll().then(products=>{
         res.render('shop/index',{
             prods: products,
             pageTitle: 'shop', 
