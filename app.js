@@ -3,7 +3,7 @@
 // console.log(route.someText);
 //Usamos templates, js, ejs/jade/handlebars
 
-
+require('dotenv').config()
 const path = require('path');
 const express = require('express');
 const errorController = require('./controlers/error');
