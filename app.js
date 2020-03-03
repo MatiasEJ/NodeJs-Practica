@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname,'public')));
 /* SERVER */ 
 const mongoConnect = require('./util/mongodb').mongoConnect;
 const port = process.env.PORT || 3000;
-
+const User = require('./model/user')
 /* VIEWS */ 
 app.set('view engine','ejs');
 app.set('views','views');
@@ -23,14 +23,22 @@ app.set('views','views');
 /* ROUTES */
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-app.use('/admin',adminRoutes);
-app.use(shopRoutes);
 
 
 /* APP REQUEST */
 app.use((req,res,next) =>{
-    next();
+    User.findById('5e5e94b21c9d440000d19601')
+    .then(user=>{
+        req.user = user;
+        next();
+    })
+    .catch((e)=>console.log("error en request usuario",e));
+    
 })
+
+
+app.use('/admin',adminRoutes);
+app.use(shopRoutes);
 
 /* ERROR HANDLING */ 
 app.use(errorController.errorHand);
@@ -38,6 +46,7 @@ app.use(errorController.errorHand);
 
 /* SERVER CONNECTION */
 mongoConnect( client =>{
+    
     app.listen(port);
     console.log(`conectado a ${port}`);
 });

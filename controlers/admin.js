@@ -1,9 +1,34 @@
 const Product = require('../model/product');
+const user = require('../model/user');
 const mongodb = require('mongodb');
 const getDb = require('../util/mongodb').getDb;
 
 const ObjectId = mongodb.ObjectID;
 
+
+exports.postAddProduct =  (req, res, next) => {
+    const title = req.body.title;
+    const imgUrl = req.body.imgUrl;
+    const price = req.body.price;
+    const description = req.body.description;
+    
+    const product = new Product(
+        title,
+        imgUrl,
+        price,
+        description,
+        null,
+        req.user._id
+    );
+    product
+    .save()
+    .then(result =>{
+        console.log("Producto creado!!");
+        res.redirect('/');
+    })
+    .catch(err=>console.log(err));
+    // res.redirect('/');
+};
 exports.getProducts = (req, res, next) => {
     Product.fetchAll().then(products=>{
         res.render('admin/products',{
@@ -24,25 +49,6 @@ exports.getAddProduct = (req, res, next) => {
     path: '/admin/add-product',
     editing: false
     });
-};
-
-exports.postAddProduct =  (req, res, next) => {
-    
-     
-    const title = req.body.title;
-    const imgUrl = req.body.imgUrl;
-    const price = req.body.price;
-    const description = req.body.description;
-   
-    const product = new Product(title,imgUrl,price,description);
-    product
-    .save()
-    .then(result =>{
-        console.log("Producto creado!!");
-        res.redirect('/');
-    })
-    .catch(err=>console.log(err));
-    // res.redirect('/');
 };
 
 exports.getEditProduct = (req, res, next) => {
