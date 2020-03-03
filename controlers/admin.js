@@ -1,5 +1,20 @@
 const Product = require('../model/product');
+const mongodb = require('mongodb');
 const getDb = require('../util/mongodb').getDb;
+
+const ObjectId = mongodb.ObjectId;
+
+exports.getProducts = (req, res, next) => {
+    Product.fetchAll().then(products=>{
+        res.render('admin/products',{
+            prods: products,
+            pageTitle: 'Admin Products', 
+            path:'/admin/products'
+        })
+      
+      }).catch((e)=>console.log("Erro en obtener prods: ",e))    
+  
+  };
 
 
 exports.getAddProduct = (req, res, next) => {
@@ -13,14 +28,13 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct =  (req, res, next) => {
     
-    const id = Math.floor((Math.random() * 100) + 1);
      
     const title = req.body.title;
     const imgUrl = req.body.imgUrl;
     const price = req.body.price;
     const description = req.body.description;
    
-    const product = new Product(id,title,imgUrl,price,description);
+    const product = new Product(title,imgUrl,price,description);
     product
     .save()
     .then(result =>{
@@ -31,51 +45,62 @@ exports.postAddProduct =  (req, res, next) => {
     // res.redirect('/');
 };
 
-// exports.getEditProduct = (req, res, next) => {
-//     // res.sendFile(path.join(rootDir,'views','add-product.html'));
-//     const editMode = req.query.edit;
-//     if(!editMode){
-//         return res.redirect('/');
+exports.getEditProduct = (req, res, next) => {
+    // res.sendFile(path.join(rootDir,'views','add-product.html'));
+    const editMode = req.query.edit;
+    if(!editMode){
+        return res.redirect('/');
 
-//     }
-//     const prodId = req.params.productId;
-//     Product.findById(prodId, product => {
-//         if(!product){
-//             res.redirect('/');
-//         } 
-//         res.render('admin/edit-product', {
-//             pageTitle: 'Add Product', 
-//             path: '/admin/edit-product',
-//             editing : editMode,
-//             product : product
+    }
+    const prodId = req.params.productId;
+    Product.findById(prodId).then(product => {
+        if(!product){
+            res.redirect('/');
+        } 
+        res.render('admin/edit-product', {
+            pageTitle: 'Edit Product', 
+            path: '/admin/edit-product',
+            editing : editMode,
+            product : product
         
-//         });
-//     });
+        })
+    });
    
-// };
-// exports.postEditProduct = (req,res,next)=>{
-//     const prodId = req.body.productId;
-//     const updatedTitle = req.body.title;
-//     const updatedPrice = req.body.price;
-//     const updatedImgUrl = req.body.imgUrl;
-//     const updatedDescription = req.body.description;
-//     const updatedProduct = new Product(prodId,updatedTitle,updatedImgUrl,updatedPrice,updatedDescription);
+};
+
+exports.postEditProduct = (req,res,next)=>{
+    const prodId = req.body.productId;
+    const updatedTitle = req.body.title;
+    const updatedPrice = req.body.price;
+    const updatedImgUrl = req.body.imgUrl;
+    const updatedDescription = req.body.description;
+    const product = new Product(updatedTitle,updatedImgUrl, updatedPrice, updatedDescription, new ObjectId(prodId));
+    product.save()
+    .then(result =>{
+        console.log("Editado Correcto");
+        res.redirect('/admin/products');
+    })
+    .catch(e=>console.log("Error editando: ",e));
+    //     if(!product){
+    //         res.redirect('/');
+    //     } 
+    //     res.render('admin/edit-product', {
+    //         pageTitle: 'Edit Product', 
+    //         path: '/admin/edit-product',
+    //         editing : editMode,
+    //         product : product
+        
+    //     })
+    // })
+    // .catch(e=>console.log("Error editando: ",e));
+   
+    //     const updatedProduct = new Product(prodId,updatedTitle,updatedImgUrl,updatedPrice,updatedDescription);
 //     updatedProduct.save();
 //     res.redirect('/admin/products');
-// }
+}
 
 
-// exports.getProducts = (req, res, next) => {
-//     Product.fetchAll(products=>{
-//           res.render('admin/products',{
-//               prods: products,
-//               pageTitle: 'Admin Products', 
-//               path:'/admin/products'
-//           });
-      
-//       });    
-  
-//   };
+
 
 // exports.postDeleteProduct = (req,res,next)=>{
 //     const prodId = req.body.productId;
