@@ -12,7 +12,7 @@ class Product {
         this.imageUrl = imageUrl;
         this.price = price;
         this.description = description;
-        this._id= id;
+        this._id= id ? new mongodb.ObjectId(id) : null;
         
     }
 
@@ -21,7 +21,7 @@ class Product {
         let dbOp;
         if(this._id){
             dbOp = db.collection('products')
-            .updateOne({_id: new mongodb.ObjectId(this._id)},{$set: this});
+            .updateOne({_id: this._id},{$set: this});
         }else{
             dbOp=db.collection('products').insertOne(this);
         }
@@ -48,20 +48,21 @@ class Product {
     static findById(prodId){
         const db = getDb();
         return db.collection('products')
-        .find({_id: mongodb.ObjectID(prodId)}).next()
+        .find({_id: mongodb.ObjectId(prodId)}).next()
         .then(product =>{
             console.log("EL PRODUCTO encontrado: ",product)
             return product;
         })
-        .catch(err=>console.log(err));
+        .catch(err=>console.log("error en encontrar id:",err));
     }
     
     static deleteById(prodId){
+        const db = getDb();
         return db.collection('products')
-        .find({_id: mongodb.ObjectID(prodId)}).next()
+        .deleteOne({_id: new mongodb.ObjectId(prodId)})
         .then(product =>{
-            console.log("EL PRODUCTO borrado: ",product)
-            return product;
+            console.log("EL PRODUCTO borrado: ")
+            
         })
         .catch(err=>console.log(err));
     }

@@ -2,7 +2,7 @@ const Product = require('../model/product');
 const mongodb = require('mongodb');
 const getDb = require('../util/mongodb').getDb;
 
-const ObjectId = mongodb.ObjectId;
+const ObjectId = mongodb.ObjectID;
 
 exports.getProducts = (req, res, next) => {
     Product.fetchAll().then(products=>{
@@ -74,7 +74,7 @@ exports.postEditProduct = (req,res,next)=>{
     const updatedPrice = req.body.price;
     const updatedImgUrl = req.body.imgUrl;
     const updatedDescription = req.body.description;
-    const product = new Product(updatedTitle,updatedImgUrl, updatedPrice, updatedDescription, new ObjectId(prodId));
+    const product = new Product(updatedTitle,updatedImgUrl, updatedPrice, updatedDescription, prodId);
     product.save()
     .then(result =>{
         console.log("Editado Correcto");
@@ -102,10 +102,13 @@ exports.postEditProduct = (req,res,next)=>{
 
 
 
-// exports.postDeleteProduct = (req,res,next)=>{
-//     const prodId = req.body.productId;
-//     Product.deleteById(prodId); //agregar callbacks!
-//     res.redirect('/admin/products');
+exports.postDeleteProduct = (req,res,next)=>{
+    const prodId = req.body.productId;
+    Product.deleteById(prodId)
+    .then(result=>{
+        res.redirect('/admin/products');
+    }).catch(e=>console.log("borrado de",e)); //agregar callbacks!
+    
 
 
-// }
+}
