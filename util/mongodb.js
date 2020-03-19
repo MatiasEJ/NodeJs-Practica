@@ -6,12 +6,12 @@ let _db;
 const mongoConnect = (callback) => {    
     MongoClient.connect(process.env.DIR_MONGO,{ useUnifiedTopology: true })
     .then(client => {
-        console.log('Connected!');
+        console.log('Connected! To TestDB');
         _db = client.db();
-        callback();
+        callback(client);
       })
       .catch(err => {
-        console.log(err);
+        console.log("->ERROR EN CONEXION <- ",err);
         throw err;
       });
   };

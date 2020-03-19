@@ -29,7 +29,7 @@ const shopRoutes = require('./routes/shop');
 app.use((req,res,next) =>{
     User.findById('5e5e94b21c9d440000d19601')
     .then(user=>{
-        req.user = user;
+        req.user = new User(user.name, user.email,user.cart, user._id);
         next();
     })
     .catch((e)=>console.log("error en request usuario",e));
@@ -46,7 +46,6 @@ app.use(errorController.errorHand);
 
 /* SERVER CONNECTION */
 mongoConnect( client =>{
-    
     app.listen(port);
     console.log(`conectado a ${port}`);
 });

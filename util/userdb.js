@@ -6,9 +6,9 @@ let _db;
 const mongoConnect = (callback) => {    
     MongoClient.connect(process.env.DIR_USER,{ useUnifiedTopology: true })
     .then(client => {
-        console.log('Connected!');
+        console.log('Connected! to user DB');
         _db = client.db();
-        callback();
+        callback(client);
       })
       .catch(err => {
         console.log(err);
@@ -20,7 +20,7 @@ const mongoConnect = (callback) => {
     if (_db) {
       return _db;
     }
-    throw 'No database found!';
+    throw 'No USER database found!';
   };
   
   exports.mongoConnect = mongoConnect;
