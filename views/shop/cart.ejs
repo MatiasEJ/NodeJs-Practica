@@ -9,15 +9,14 @@
                 <h1>CARTS</h1>
                 <p>List of all Products</p>
                 <!-- JS -->
-                <% if(products.length > 0){%>
+                <% if(products.length>0){%>
                     <ul>
                         <% products.forEach(p => {%>
                             <li>
                                 <p>
-                                    Item: <%= p.productData.title%> Cantidad: (<%= p.qty %>) (<%= p.productData.price%>) (<%=p.productData.id%>)
-                                </p>
+                                    Item: <%= p.title%> Cantidad: (<%= p.quantity %>)      </p>
                                 <form action="/cart-delete-item" method="POST">
-                                    <input type="hidden" value="<%=p.productData.id%>" name="productId">
+                                    <input type="hidden" value="<%=p._id%>" name="productId">
                                     <button type="submit" class="btn">delete</button>
                                 </form>
                             </li>
@@ -25,7 +24,7 @@
 
 
                     </ul>
-                    <h3><p>TOTAL DEL CARRO: </p><%= cartTotal %></h3>
+                    
                 <%}else{%>
                     <h1>NO PRODS</h1>
                 <%}%>
