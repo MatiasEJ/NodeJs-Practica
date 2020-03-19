@@ -51,7 +51,7 @@
     font-size: 1.8rem;
     -webkit-box-shadow: 7px 7px 0px 0px black;
     box-shadow: 7px 7px 0px 0px black;
-    background: repeating-linear-gradient(191deg, #2196f324, #00968838 52px);
+    background-color: beige;
     text-align: center;
     flex-direction: column;
    
@@ -137,8 +137,7 @@ body {
 
 
     .imag {
-        @include flexCenter();
-        
+       
        
         grid-area: imag;
         margin: 5% 0;
@@ -184,6 +183,7 @@ section {
     display: grid;
     text-align: center;
     margin-top: 106px;
+   
 }
 
 footer {

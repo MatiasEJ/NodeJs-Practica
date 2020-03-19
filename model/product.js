@@ -45,7 +45,7 @@ class Product {
         return db.collection('products')
         .find({_id: mongodb.ObjectId(prodId)}).next()
         .then(product =>{
-            console.log("EL PRODUCTO encontrado: ",product)
+           
             return product;
         })
         .catch(err=>console.log("error en encontrar id:",err));
@@ -56,7 +56,7 @@ class Product {
         return db.collection('products')
         .deleteOne({_id: new mongodb.ObjectId(prodId)})
         .then(product =>{
-            console.log("EL PRODUCTO borrado: ", product)
+            console.log("EL PRODUCTO borrado: ");
             
         })
         .catch(err=>console.log(err));

@@ -14,7 +14,7 @@
   font-size: 1.8rem;
   -webkit-box-shadow: 7px 7px 0px 0px black;
   box-shadow: 7px 7px 0px 0px black;
-  background: repeating-linear-gradient(191deg, #2196f324, #00968838 52px);
+  background-color: beige;
   text-align: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -87,12 +87,6 @@ body {
 }
 
 .prod .imag {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   grid-area: imag;
   margin: 5% 0;
 }
