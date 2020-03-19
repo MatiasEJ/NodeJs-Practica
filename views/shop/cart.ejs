@@ -2,9 +2,7 @@
 </head>
 <body>
     <%- include('../includes/nav.ejs') %>
-
     <section class="card">
-        
         <div class="productos">
                 <h1>CARTS</h1>
                 <p>List of all Products</p>
@@ -18,17 +16,19 @@
                                 <form action="/cart-delete-item" method="POST">
                                     <input type="hidden" value="<%=p._id%>" name="productId">
                                     <button type="submit" class="btn">delete</button>
+
                                 </form>
                             </li>
                         <% }) %>
 
 
                     </ul>
-                    
+                    <form action="/orders" method="POST">
+                        <button type="submit" class="btn">OrderNOW!!</button>
+                    </form>
                 <%}else{%>
                     <h1>NO PRODS</h1>
                 <%}%>
-               
         </div>
 
 </section>

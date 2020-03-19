@@ -16,10 +16,10 @@ router.get('/cart',shopControllers.getCart);
 
 router.post('/cart',shopControllers.postCart)
 
-// router.post('/cart-delete-item',shopControllers.postCartDelete);
+router.post('/cart-delete-item',shopControllers.postCartDelete);
 
-// router.get('/checkout',shopControllers.getcheckout);
-// router.get('/orders',shopControllers.getOrders);
+router.get('/create-order',shopControllers.postOrder);
+router.get('/orders',shopControllers.getOrders);
 
 
 module.exports = router;

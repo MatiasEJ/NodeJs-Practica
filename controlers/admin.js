@@ -27,7 +27,7 @@ exports.postAddProduct =  (req, res, next) => {
         res.redirect('/');
     })
     .catch(err=>console.log(err));
-    // res.redirect('/');
+    
 };
 exports.getProducts = (req, res, next) => {
     Product.fetchAll().then(products=>{
@@ -43,7 +43,7 @@ exports.getProducts = (req, res, next) => {
 
 
 exports.getAddProduct = (req, res, next) => {
-    // res.sendFile(path.join(rootDir,'views','add-product.html'));
+   
     res.render('admin/add-product',
     {pageTitle: 'Add Product', 
     path: '/admin/add-product',
@@ -87,22 +87,7 @@ exports.postEditProduct = (req,res,next)=>{
         res.redirect('/admin/products');
     })
     .catch(e=>console.log("Error editando: ",e));
-    //     if(!product){
-    //         res.redirect('/');
-    //     } 
-    //     res.render('admin/edit-product', {
-    //         pageTitle: 'Edit Product', 
-    //         path: '/admin/edit-product',
-    //         editing : editMode,
-    //         product : product
-        
-    //     })
-    // })
-    // .catch(e=>console.log("Error editando: ",e));
-   
-    //     const updatedProduct = new Product(prodId,updatedTitle,updatedImgUrl,updatedPrice,updatedDescription);
-//     updatedProduct.save();
-//     res.redirect('/admin/products');
+
 }
 
 

@@ -15,11 +15,7 @@ class User {
         const db = getDb();
         return db.collection('users')
         .insertOne(this);
-        // .then(result =>{
-        //     console.log("Usuario salvado");
-        // })
-        // .catch(err => console.log("Error en Usuario salvado"+err) );
-      
+   
     }
 
     addToCart(product){
@@ -52,14 +48,13 @@ class User {
     getCart(){
         const db = getDb();
         const productsIds = this.cart.items.map( i =>{
-            console.log(i.productId)
             return i.productId;
         });
         return db.collection('products')
         .find({_id: {$in: productsIds}})
         .toArray()
         .then( products => {
-            console.log(products)
+            
             return products.map(p=>{
                 return {...p, quantity: this.cart.items.find(i =>{
                     return i.productId.toString() === p._id.toString();
@@ -69,15 +64,36 @@ class User {
        
     }
 
+    deleteItemFromCart(productId){
+        const updatedCartItems = this.cart.items.filter(item =>{
+            return item.productId.toString() !== productId.toString();
+        });
+
+        const db = getDb();
+        return db.collection('users').updateOne(
+            { _id: new ObjectId(this._id)},
+            { $set: { cart: {items: updatedCartItems}}}
+        );
+    }
+
+    addOrder(){
+        const db = getDb();
+        db.collection('orders')
+        .insertOne(this.cart)
+        .then(result =>{
+            this.cart = {items: []};
+            return db.collection('users').updateOne(
+                { _id: new ObjectId(this._id)},
+                { $set: { cart: {items: []}}}
+            );
+        })
+        .catch(err=>console.log(err));
+    }
+
     static findById(userId){
         const db = getDb();
         return db.collection('users')
         .findOne({_id: new ObjectId(userId)});
-    //     .then(usuario =>{
-    //         console.log("EL Usuario ",usuario)
-    //         return usuario;
-    //     })
-    //     .catch(err=>console.log("error en encontrar usuario: ",err));
     }
 }
 

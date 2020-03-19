@@ -1,5 +1,5 @@
 const Product = require('../model/product');
-const Cart = require('../model/cart')
+
 
 
 exports.getProducts = (req, res, next) => {
@@ -45,7 +45,7 @@ exports.getCart = (req, res, next) => {
     req.user
     .getCart()
     .then(products=>{
-            console.log("Productos",products)
+           
             res.render('shop/cart',{ 
                 path:'/cart',
                 pageTitle: 'YourCart',
@@ -71,11 +71,14 @@ exports.postCart= (req,res,next) =>{
 
 exports.postCartDelete = (req,res,next) => {
     const prodId = req.body.productId;
-  
-    Product.findById(prodId,product =>{
-        Cart.deleteProduct(prodId,product.price);
-        res.redirect('/cart');
-    });
+    req.user
+    .deleteItemFromCart(prodId)
+    .then(result => {
+        console.log("borrado satisfactorio")
+        res.redirect('/cart')
+    })
+    .catch(err=>console.log("<= ERROR Borrado =>",err));
+    
 
 };
 
@@ -87,6 +90,19 @@ exports.getOrders = (req, res, next) => {
         });    
 
 };
+
+exports.postOrder = (req,res,next) =>{
+    let fetchedCart;
+    req.user
+    .addOrder()
+    .then(result =>{
+        console.log("POST ORDERS")
+        res.render('/orders');   
+    })
+    .catch( err => console.log(err) );
+}
+
+
 exports.getcheckout = (req, res, next) => {
     res.render('shop/checkout',{ 
             path:'/checkout',
