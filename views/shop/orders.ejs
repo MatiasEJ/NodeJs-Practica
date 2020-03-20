@@ -1,11 +1,38 @@
 <%- include('../includes/head.ejs') %>
 </head>
-<body>
-    <%- include('../includes/nav.ejs') %>
-
-    <section>
-       <h1>ORDERS</h1>
-      
+    <body>
+        <%- include('../includes/nav.ejs') %>
+        <section class="card">
+            <div class="productos">
+                    <h1>ORDENES</h1>
+                    <p>Lista de todas las ordenes</p>
+                    
+                    <!-- JS -->
+                    <% if(orders.length > 0){%>
+                        
+                            
+                            <% orders.forEach( order => {%>
+                              <div class="order__">
+                                
+                                <ul>
+                                <li>
+                                    
+                                    <ul>
+                                        <% order.items.forEach( product => {%>
+                                        <li><%= product.title %>: ( <%= product.quantity%> )</li>
+                                        <%})%>
+                                    </ul>
+                                   
+                                </li>
+                                <% }) %>
+                            </ul>
+                        </div>
+                        <hr>
+                       
+                    <%}else{%>
+                        <h1>NO ORDERS</h1>
+                    <%}%>
+            </div>
     
     </section>
-<%- include('../includes/end.ejs') %>
+    <%- include('../includes/end.ejs') %>

@@ -57,8 +57,6 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart= (req,res,next) =>{
     const prodId = req.body.productId;
-    
-    
     Product.findById(prodId)
     .then(product =>{
         return req.user.addToCart(product);
@@ -82,31 +80,29 @@ exports.postCartDelete = (req,res,next) => {
 
 };
 
-
-exports.getOrders = (req, res, next) => {
-    res.render('shop/orders',{ 
-            path:'/orders',
-            pageTitle: 'YourOrders'
-        });    
-
-};
-
 exports.postOrder = (req,res,next) =>{
-    let fetchedCart;
+    
     req.user
     .addOrder()
     .then(result =>{
-        console.log("POST ORDERS")
-        res.render('/orders');   
+        
+        res.redirect('/orders');   
     })
     .catch( err => console.log(err) );
 }
 
 
-exports.getcheckout = (req, res, next) => {
-    res.render('shop/checkout',{ 
-            path:'/checkout',
-            pageTitle: 'Yourcheckout'
+exports.getOrder = (req, res, next) => {
+    req.user
+    .getOrders()
+    .then(orders=>{
+        res.render('shop/orders',{ 
+            path:'/orders',
+            pageTitle: 'Your Orders!!',
+            orders: orders
         });    
 
+    })
+    .catch(err=>console.log("Error en obtener orders: ", err))
+    
 };
