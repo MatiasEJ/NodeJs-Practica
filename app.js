@@ -27,16 +27,15 @@ const shopRoutes = require('./routes/shop');
 
 
 /* APP REQUEST */
-// app.use((req,res,next) =>{
-//     User.findById('5e5e94b21c9d440000d19601')
-//     .then(user=>{
-//         req.user = new User(user.name, user.email,user.cart, user._id);
-        
-//         next();
-//     })
-//     .catch((e)=>console.log("error en request usuario",e));
+app.use((req,res,next) =>{
+    User.findById('5e7691bd300a592fbcce601e')
+    .then(user=>{
+        req.user = user;
+        next();
+    })
+    .catch((e)=>console.log("error en request usuario",e));
     
-// })
+})
 
 
 app.use('/admin',adminRoutes);
@@ -50,7 +49,23 @@ app.use(errorController.errorHand);
 mongoose
     .connect(process.env.DIR_MONGO,{ useNewUrlParser: true , useUnifiedTopology: true })
     .then(result => {
-        console.log("Conectado a 3000")
-        app.listen(3000);
+        console.clear();
+        User.findOne().then(user=>{
+            if(!user){
+                
+        const user = new User({
+            name: "max",
+            email: "max@test.com.ar", 
+            cart:{items:[]}
+
+        });
+        user.save();
+            }
+        })
+        console.log(`Conectado a puerto: ${port}`)
+        
+        app.listen(port);
+        
     })
     .catch(err => console.log("Error en conexion: ", err))
+   
