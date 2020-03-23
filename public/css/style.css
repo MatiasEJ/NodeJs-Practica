@@ -1,3 +1,10 @@
+hr {
+  width: 80%;
+  height: 10px;
+  background: aqua;
+  border: 1px solid blue;
+}
+
 .card {
   border: 1px solid black;
   border-radius: 30px;
@@ -136,6 +143,7 @@ footer {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  margin-top: 1rem;
 }
 
 .navbar {
@@ -273,5 +281,52 @@ textarea {
 
 .product__description {
   text-align: center;
+}
+
+.orden {
+  display: -ms-grid;
+  display: grid;
+  grid-template: "nombre_orden" 5vh "items_orden" auto ".";
+  text-align: left;
+  text-align: left;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  -webkit-box-shadow: 0 0 0 2px black;
+          box-shadow: 0 0 0 2px black;
+  margin: 1rem 3rem;
+}
+
+.orden li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.nombre_orden {
+  grid-area: nombre_orden;
+  border-bottom: 1px solid;
+}
+
+.items_orden {
+  grid-area: items_orden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  padding: 0.5rem;
+}
+
+.ordenes_lista {
+  width: 100%;
+}
+
+.ordenes_lista ul {
+  padding-left: 0px;
+  list-style: none;
 }
 /*# sourceMappingURL=style.css.map */

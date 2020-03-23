@@ -1,37 +1,39 @@
 <%- include('../includes/head.ejs') %>
 </head>
-    <body>
-        <%- include('../includes/nav.ejs') %>
-        <section class="card">
-            <div class="productos">
-                    <h1>ORDENES</h1>
-                    <p>Lista de todas las ordenes</p>
-                    
-                    <!-- JS -->
-                    <% if(orders.length > 0){%>
-                        
+
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <section class="card">
+        <div class="ordenes_lista">
+            <h1>ORDENES</h1>
+            <p>Lista de todas las ordenes</p>
+
+            <!-- JS -->
+            <% if(orders.length > 0){%>
+
+                <ul>
+            <% orders.forEach( order => {%>
+            <div class="orden">
+
+              
+                    <div class="nombre_orden"> Order: <%= order._id%> </div>
+                  
+
+                            <div class="items_orden"><% order.products.forEach( p => {%>
+                            <li ><%= p.product.title %>: ( <%= p.quantity%> )</li>
+                            <%})%>
                             
-                            <% orders.forEach( order => {%>
-                              <div class="order__">
-                                
-                                <ul>
-                                <li>
-                                    
-                                    <ul>
-                                        <% order.items.forEach( product => {%>
-                                        <li><%= product.title %>: ( <%= product.quantity%> )</li>
-                                        <%})%>
-                                    </ul>
-                                   
-                                </li>
-                                <% }) %>
-                            </ul>
-                        </div>
-                        <hr>
-                       
-                    <%}else{%>
-                        <h1>NO ORDERS</h1>
-                    <%}%>
+                            </div>
+                            
+           
+            </div>
+            <% }) %>
+        </ul>
+      
+
+            <%}else{%>
+            <h1>NO ORDERS</h1>
+            <%}%>
             </div>
     
     </section>
