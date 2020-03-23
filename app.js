@@ -6,9 +6,17 @@
 require('dotenv').config()
 const path = require('path');
 const express = require('express');
+const session = require('express-session')
 const errorController = require('./controlers/error');
 const app = express();
 const bodyParser = require('body-parser');
+const MongoDBStore = require('connect-mongodb-session')(session)
+
+const store = new MongoDBStore({
+    uri: process.env.DIR_MONGO, 
+    collection: 'sessions'
+})
+
 app.use(bodyParser.urlencoded({
     extended: false
 }));
@@ -26,13 +34,19 @@ app.set('views', 'views');
 /* ROUTES */
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
 
 
 /* APP REQUEST */
+app.use(session({ 
+    secret: 'mysecret',
+    resave: false,
+    saveUninitialized: false, 
+    store: store
+}))
 app.use((req, res, next) => {
     User.findById('5e778682a4517c2714d87323')
         .then(user => {
-            console.log("USUARIO: ",user.name)
             req.user = user;
             next();
         })
@@ -43,6 +57,7 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 /* ERROR HANDLING */
 app.use(errorController.errorHand);
@@ -50,10 +65,12 @@ app.use(errorController.errorHand);
 
 /* SERVER CONNECTION */
 mongoose
-    .connect(process.env.DIR_MONGO, {
+    .connect(process.env.DIR_MONGO, 
+        {
         useNewUrlParser: true,
         useUnifiedTopology: true
-    })
+        }
+    )
     .then(result => {
         console.clear();
         User.findOne().then(user => {
