@@ -3,22 +3,22 @@ const path = require('path');
 const express= require('express');
 
 const adminController = require('../controlers/admin');
-
+const isAuth = require('../midleware/isAuth');
 const router = express.Router();
 
 
 // //admin GET
-router.get('/add-product', adminController.getAddProduct);
-router.get('/products',adminController.getProducts);
+router.get('/add-product', isAuth,adminController.getAddProduct);
+router.get('/products',isAuth,adminController.getProducts);
 
 
 // //admin POST
-router.post('/add-product', adminController.postAddProduct);
+router.post('/add-product',isAuth, adminController.postAddProduct);
 
-router.get('/edit-product/:productId',adminController.getEditProduct);
-router.post('/edit-product',adminController.postEditProduct);
+router.get('/edit-product/:productId',isAuth,adminController.getEditProduct);
+router.post('/edit-product',isAuth,adminController.postEditProduct);
 
-router.post('/delete-product',adminController.postDeleteProduct);
+router.post('/delete-product',isAuth,adminController.postDeleteProduct);
 
 
 
