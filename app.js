@@ -44,14 +44,16 @@ app.use(session({
     saveUninitialized: false, 
     store: store
 }))
-app.use((req, res, next) => {
-    User.findById('5e778682a4517c2714d87323')
-        .then(user => {
-            req.user = user;
-            next();
-        })
-        .catch((e) => console.log("error en request usuario", e));
-
+app.use( (req, res, next)=>{
+    if(!req.session.user){
+       return next();
+    }
+    User.findById(req.session.user._id)
+    .then(user=>{
+        req.user = user; //mongoose model.    
+        next();
+    })
+    .catch(err=>console.log('error en user session', err)); 
 })
 
 

@@ -26,10 +26,12 @@
                         </div>
                         <div class="opt">
                             <a class="btn" href="/products/<%=product._id%>" class="btn">DETAILS</a>
+                            <% if(isAuth) { %>
                             <form action="/cart" method="POST">
                                 <button type="submit" class="btn">ADD TO CART</button>
                                 <input type="hidden" name="productId" value="<%= product._id %>">
                             </form>
+                            <%}%>
                         </div>
                     </div>
         

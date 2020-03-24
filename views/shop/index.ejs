@@ -6,8 +6,8 @@
 
     <section class="card">
             <div class="productos">
-                    <h1>Products</h1>
-                    <p>List of all Products</p>
+                    <h1>Bienvenidos a libroLandia</h1>
+                    <p>Lista de todos los productos imaginarios que tenemos.</p>
                     <!-- JS -->
                     <% if (prods.length > 0 ){%>
                     <% for (let product of prods){%>
@@ -25,10 +25,12 @@
                         </div>
                         <div class="opt">
                             <a class="btn" href="/products/<%=product._id%>" class="btn">DETAILS</a>
+                            <% if(isAuth) { %>
                             <form action="/cart" method="POST">
                                 <button type="submit" class="btn">ADD TO CART</button>
                                 <input type="hidden" name="productId" value="<%= product._id %>">
                             </form>
+                            <%}%>
                         </div>
                     </div>
         
