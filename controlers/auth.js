@@ -1,4 +1,6 @@
+const bcrypt = require('bcrypt');
 const User = require('../model/user');
+
 
 exports.getLogin = (req, res, next) => {
   // const isLoggedIn = req.get('Cookie').split('=')[1]; 
@@ -14,29 +16,50 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  User.findById('5e778682a4517c2714d87323')
-    .then(user => {
-      req.session.isLoggedIn = true;
-      req.session.user = user;
-      req.session.save((err) => {
-        console.log(err);
-        res.redirect('/');
-      });
-    })
-    .catch(err => console.log('error en postLogin', err));
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne({email:email})
+  .then(user=>{
+    if(!user){
+      console.warn("No hay Usuario")
+      return res.redirect('/login');
+    }else{
+      bcrypt.compare(password, user.password)
+      .then(doMatch=>{
+        if (doMatch){
+          
+          req.session.isLoggedIn = true;
+          req.session.user = user;
+          return req.session.save((err) => {
+            if (err){console.log(err);}   
+            console.warn("USUARIO ACEPTADO")
+            res.redirect('/');
+          });
+        } 
+        console.warn("WRONG PASSWORD")
+        res.redirect('/login');
+      })
+      .catch(e=>{
+        console.log(e)
+        res.redirect('/login');
+      })
+    }
+  })
+ 
+  .catch(err => console.log('error en postLogin', err));
 };
 
 exports.postLogout = (req, res, next) => {
-  console.log("LOGGINOUT")
+  
   req.session.destroy((err) => {
-    console.log("error en outlog", err)
+    if (err){console.log(err);}
     res.redirect('/');
   });
 
 };
 
 exports.getSignup = (req, res, next) => {
-  console.log("getSignUP")
+  
   res.render('auth/signup', {
     path: '/signup',
     pageTitle: 'signup',
@@ -46,7 +69,7 @@ exports.getSignup = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
-  console.log("postSignup")
+  
   const email = req.body.email;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
@@ -54,17 +77,19 @@ exports.postSignup = (req, res, next) => {
     if(userDoc){
       return res.redirect('/signup');
     }else{
-      const user = new User({
-        email: email,
-        password: password,
-        cart: {items: []}
-      });
-      return user.save();
-      
+      return bcrypt.hash(password, 12).then(hashPassword => {
+    
+        const user = new User({
+          email: email,
+          password: hashPassword,
+          cart: {items: []}
+        });
+        return user.save();
+      })
+      .then(result => {
+        res.redirect('/login');
+      }).catch(e=>console.log(e));      
     }
-  })
-  .then(result => {
-    res.redirect('/login');
   })
   .catch(e=>console.log(e))
 
