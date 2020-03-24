@@ -75,18 +75,7 @@ mongoose
     )
     .then(result => {
         console.clear();
-        User.findOne().then(user => {
-            if (!user) {
-                const user = new User({
-                    name: "max",
-                    email: "max@test.com.ar",
-                    cart: {
-                        items: []
-                    }
-                });
-                user.save();
-            }
-        })
+        
         console.log(`Conectado a puerto: ${port}`)
 
         app.listen(port);

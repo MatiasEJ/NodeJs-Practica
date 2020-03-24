@@ -1,0 +1,35 @@
+<%-include('../includes/head.ejs') %>
+</head>
+
+<body>
+  <%-include('../includes/nav.ejs') %>
+
+  <section class="card">
+    <div class="login">
+      <form action="/signup" method="POST">
+
+        <div>
+          <label for="email">E-mail</label>
+          <input type="text" name="email" id="email" value="">
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password">
+        </div>
+        <div>
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="confirmPassword" name="confirmPassword" id="confirmPassword">
+        </div>
+
+
+        <div>
+
+          <button class="btn" type="submit">Signup</button>
+        </div>
+      </form>
+
+    </div>
+
+  </section>
+  <%-include('../includes/end.ejs')%>
