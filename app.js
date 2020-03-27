@@ -11,11 +11,17 @@ const errorController = require('./controlers/error');
 const app = express();
 const bodyParser = require('body-parser');
 const MongoDBStore = require('connect-mongodb-session')(session)
+// const csrf = require('csurf');
+
+
 
 const store = new MongoDBStore({
     uri: process.env.DIR_MONGO, 
     collection: 'sessions'
 })
+
+// const csrfProtection = csrf();
+
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -27,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const port = process.env.PORT || 3000;
 const User = require('./model/user')
 const mongoose = require('mongoose');
+
 /* VIEWS */
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -44,6 +51,10 @@ app.use(session({
     saveUninitialized: false, 
     store: store
 }))
+
+// //PROTECTION
+// app.use(csrfProtection);
+
 app.use( (req, res, next)=>{
     if(!req.session.user){
        return next();
@@ -56,6 +67,12 @@ app.use( (req, res, next)=>{
     .catch(err=>console.log('error en user session', err)); 
 })
 
+app.use( (req, res, next)=>{
+    res.locals.isAuth = req.session.isLoggedIn;
+    // res.locals.csrfToken = req.csrfToken();
+    next();
+
+})
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);

@@ -23,12 +23,14 @@
                 </li>
                 <li>
                     <form action="/logout" method="POST">
-                        <!-- <a class="<%= path === '/auth/login' ? 'active' : '' %>" href='/'>LOGOUT</a> -->
+                        <!-- <input type="hidden" name="_csrf" valur=""> -->
                         <button class="btn" type="submit">Logout</button>
                     </form>
                 </li>
             <% } %>
             <% if(!isAuth) { %>
+                
+                
                 <li>
                     <a class="<%= path === '/auth/login' ? 'active' : '' %>" href='/login'>LOGIN</a>
                 </li>
