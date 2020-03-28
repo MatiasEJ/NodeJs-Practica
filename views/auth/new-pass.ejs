@@ -1,0 +1,35 @@
+<%-include('../includes/head.ejs') %>
+</head>
+
+<body>
+  <%-include('../includes/nav.ejs') %>
+
+  <section class="card">
+    <div class="login">
+      <% if(errorMessage){ %>
+      <div class="user-message user-message-error"><%= errorMessage %></div>
+      <% } %>
+      <form action="/new-pass" method="POST">
+
+
+
+        <div>
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password">
+        </div>
+
+
+
+        <div>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="userId" value="<%= userId %>">
+          <input type="hidden" name="passToken" value="<%= passToken %>">
+          <button class="btn" type="submit">update Pass</button>
+        </div>
+      </form>
+
+
+    </div>
+
+  </section>
+  <%-include('../includes/end.ejs')%>

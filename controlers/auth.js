@@ -1,5 +1,7 @@
+
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
-const error = require('./error')
+// const error = require('./error');
 const nodemailer = require('nodemailer');
 const sgTransport = require('nodemailer-sendgrid-transport');
 
@@ -11,13 +13,16 @@ let options = {
     api_key: process.env.DIR_MAIL
   }
 }
-
-
-
 const transporter = nodemailer.createTransport(sgTransport(options));
 
 exports.getLogin = (req, res, next) => {
-  let message = error.errorPop(req);
+  let message = req.flash('error', 'Error en Login');
+  if (message.length > 0 ){
+    message = message[0];
+  }else {  message = null; }
+ 
+ 
+
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'LogIn',
@@ -73,7 +78,12 @@ exports.postLogout = (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
-  let message = error.errorPop(req);
+  let message = req.flash('error', 'Error en newPass');
+  if (message.length > 0 ){
+    message = message[0];
+  }else{
+  message = null;
+  }
   res.render('auth/signup', {
     path: '/signup',
     pageTitle: 'signup',
@@ -91,9 +101,9 @@ exports.postSignup = (req, res, next) => {
 
   let mailSignup = {
     to: email,
-    from: 'test@example.com',
-    subject: 'Sending with Twilio SendGrid is Fun',
-    text: 'and easy to do anywhere, even with Node.js',
+    from: process.env.DIR_MYMAIL,
+    subject: 'SIGNUP correctin',
+    text: 'Todo buenardo amigardo',
     html: '<strong>and easy to do anywhere, even with Node.js</strong>',
   } 
 
@@ -130,3 +140,121 @@ exports.postSignup = (req, res, next) => {
  
 
 };
+
+exports.getReset =  (req, res, next) => {
+  let message = req.flash('error', 'Error en newPass');
+    if (message.length > 0 ){
+      message = message[0];
+    }else{
+    message = null;
+    }
+  res.render('auth/reset', {
+    path: '/reset',
+    pageTitle: 'Reset Password',
+    errorMessage: message
+  });
+};
+
+exports.postReset = (req, res, next)=>{
+  const email = req.body.email;
+ 
+  
+  crypto.randomBytes(32, (err, buffer)=>{
+    if(err){
+      console.log(err)
+      return res.redirect('/reset')
+    }
+    const token = buffer.toString('hex');
+    let mailReset = {
+      to: email,
+      from: process.env.DIR_MYMAIL,
+      subject: 'RESETEO DE PASSWORD correctin',
+      text: 'Todo buenardo amigardo',
+      html: `
+        <strong>Testeando multilinea</strong>
+        <h1>QUE ONDASSS</h1>
+        <a href="http://localhost:3000/reset/${token}"> LINK DE RESETEO </a>
+        `,
+    };
+    User.findOne({email: email})
+    .then(user => {
+      if (!user){
+        req.flash('error', 'Usuario no encontrado');
+        
+        return res.redirect('/signup');
+      }
+      user.resetToken = token;
+      user.resetTokenExpiration = Date.now() + 3600000;
+      return user.save();
+
+    })
+    .then(result =>{
+      res.redirect('/login');
+      return transporter
+        .sendMail(mailReset)
+        .catch(e=>console.log('error en mail de reset ',e))
+    })
+    .catch(e=>console.log(e))
+
+  });
+
+
+}
+
+exports.getNewPass = (req, res, next)=>{
+  const token = req.params.token;
+  User.findOne({resetToken: token, resetTokenExpiration: {$gt: Date.now()}})
+  .then(user=>{
+
+    let message = req.flash('error', 'Error en newPass');
+    if (message.length > 0 ){
+      message = message[0];
+    }else{
+    message = null;
+    }
+    res.render('auth/new-pass', {
+      path: '/new-pass',
+      pageTitle: 'New Pass',
+      errorMessage: message,
+      userId: user._id.toString(), 
+      passToken: token
+    });
+
+
+  })
+  .catch(e=>console.log(e));
+  
+  
+
+}
+
+exports.postNewPass = (req, res, next)=>{
+  const newPass = req.body.password;
+  const userId = req.body.userId;
+  const passToken = req.body.passToken;
+
+  let resetUser;
+
+  User.findOne({
+    resetToken: passToken,
+    resetTokenExpiration: {$gt: Date.now()},
+    _id: userId
+  })
+  .then(user=>{
+    resetUser = user;
+    return bcrypt.hash(newPass, 12);
+  })
+  .then(hashedPass => {
+    resetUser.password = hashedPass;
+    resetUser.resetToken = undefined;
+    resetUser.resetTokenExpiration = undefined;
+    return resetUser.save()
+  })
+  .then(result => {
+    //confirmar reseteo.
+    res.redirect('/login')
+  })
+  .catch(e=>console.log(e))
+
+
+}

@@ -9,26 +9,19 @@
             <% if(errorMessage){ %>
             <div class="user-message user-message-error"><%= errorMessage %></div>
         <% } %>
-            <form action="/login" method="POST">
+            <form action="/reset" method="POST">
 
                 <div><label for="email">E-mail</label>
                     <input type="text" name="email" id="email" value="">
                 </div>
 
-                <div><label for="password">Password</label>
-                    <input type="password" name="password" id="password">
-                </div>
-
-
+                
 
                 <div>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button class="btn" type="submit">Submit</button>
+                    <button class="btn" type="submit">reset Password</button>
                 </div>
             </form>
-            <div>
-                <a class="btn" href="/reset" target="_blank" rel="noopener noreferrer">reset Pass</a>
-            </div>
 
         </div>
 
