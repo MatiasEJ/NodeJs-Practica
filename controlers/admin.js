@@ -29,7 +29,9 @@ exports.postAddProduct =  (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
+
     Product.find()
+    //ver solo productos de usuario { userId: req.user._id }
     //seleccionar info
     //.select('title price - _id')
     //obtener info del usuario
@@ -93,25 +95,30 @@ exports.postEditProduct = (req,res,next)=>{
 
     Product.findById(prodId)
     .then(product=>{
+        if(product.userId !== req.user._id){
+            return res.redirect('/');
+        }
         product.title = updatedTitle;
         product.price = updatedPrice;
         product.description = updatedDescription;
         product.imageUrl = updatedImgUrl;
-        product.save()
-
-    })
-    .then(result =>{
-        console.log("Editado Correcto");
-        res.redirect('/admin/products');
+        return product
+            .save()
+            .then(result =>{
+                console.log("Editado Correcto");
+                res.redirect('/admin/products');
+            })
+            .catch(e=>console.log("Error editando: ",e));
     })
     .catch(e=>console.log("Error editando: ",e));
+   
 
 }
 
 exports.postDeleteProduct = (req,res,next)=>{
     const prodId = req.body.productId;
     Product
-    .findByIdAndRemove(prodId)
+    .deleteOne({_id: prodId, userId: req.user._id})
     .then(()=>{
         console.log("producto borrado")
         res.redirect('/admin/products');
