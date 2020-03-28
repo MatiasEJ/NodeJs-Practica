@@ -1,15 +1,27 @@
 const bcrypt = require('bcrypt');
+const error = require('./error')
+const nodemailer = require('nodemailer');
+const sgTransport = require('nodemailer-sendgrid-transport');
+
+
 const User = require('../model/user');
 
+let options = {
+  auth: {
+    api_key: process.env.DIR_MAIL
+  }
+}
+
+
+
+const transporter = nodemailer.createTransport(sgTransport(options));
 
 exports.getLogin = (req, res, next) => {
-  // const isLoggedIn = req.get('Cookie').split('=')[1]; 
-  // console.log("Esta logeado?: ", isLoggedIn);
-  // const isLoggedIn = req.session.isLoggedIn;
+  let message = error.errorPop(req);
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'LogIn',
-    isAuth: false
+    errorMessage: message
   });
 
 
@@ -22,6 +34,7 @@ exports.postLogin = (req, res, next) => {
   .then(user=>{
     if(!user){
       console.warn("No hay Usuario")
+      req.flash('error', 'No existe el usuario');
       return res.redirect('/login');
     }else{
       bcrypt.compare(password, user.password)
@@ -37,7 +50,8 @@ exports.postLogin = (req, res, next) => {
           });
         } 
         console.warn("WRONG PASSWORD")
-        res.redirect('/login');
+        req.flash('error', 'wrongo passwordo');
+        return res.redirect('/login');
       })
       .catch(e=>{
         console.log(e)
@@ -59,11 +73,12 @@ exports.postLogout = (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
-  
+  let message = error.errorPop(req);
   res.render('auth/signup', {
     path: '/signup',
     pageTitle: 'signup',
-    isAuth: false
+    isAuth: false,
+    errorMessage: message
   });
 
 };
@@ -73,8 +88,18 @@ exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
+
+  let mailSignup = {
+    to: email,
+    from: 'test@example.com',
+    subject: 'Sending with Twilio SendGrid is Fun',
+    text: 'and easy to do anywhere, even with Node.js',
+    html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+  } 
+
   User.findOne({email: email}).then(userDoc => {
     if(userDoc){
+      req.flash('error', 'Error en mail');
       return res.redirect('/signup');
     }else{
       return bcrypt.hash(password, 12).then(hashPassword => {
@@ -87,13 +112,21 @@ exports.postSignup = (req, res, next) => {
         return user.save();
       })
       .then(result => {
+        // TODO: AVISO DE ENVIO CORRECTO req.flash('error', 'Error en mail');
         res.redirect('/login');
+
+        
+        /**ENVIO DE MAIL **/
+        return transporter.sendMail(mailSignup)
+        .catch(e=>console.log('error en mail: ',e))
+        
+
       }).catch(e=>console.log(e));      
     }
   })
   .catch(e=>console.log(e))
 
 
-
+ 
 
 };

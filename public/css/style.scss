@@ -373,6 +373,18 @@ textarea{
 
 
 .login{
+    text-align: right;
+}
+
+.user-message{
+    background-color: grey;
+}
+.user-message-error{
+    background-color: #80808070;
+    border: 1px solid #332d2dc4;
     display: flex;
-    justify-content: left;
+    justify-content: center;
+    margin: 1rem 1rem;
+    padding: 0.5rem;
+    border-radius: 35px;
 }

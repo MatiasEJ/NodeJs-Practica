@@ -11,7 +11,8 @@ const errorController = require('./controlers/error');
 const app = express();
 const bodyParser = require('body-parser');
 const MongoDBStore = require('connect-mongodb-session')(session)
-// const csrf = require('csurf');
+const csrf = require('csurf');
+const flash = require('connect-flash');
 
 
 
@@ -20,8 +21,8 @@ const store = new MongoDBStore({
     collection: 'sessions'
 })
 
-// const csrfProtection = csrf();
-
+const csrfProtection = csrf();
+app.use(flash());
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -52,8 +53,8 @@ app.use(session({
     store: store
 }))
 
-// //PROTECTION
-// app.use(csrfProtection);
+//PROTECTION
+app.use(csrfProtection);
 
 app.use( (req, res, next)=>{
     if(!req.session.user){
@@ -69,7 +70,7 @@ app.use( (req, res, next)=>{
 
 app.use( (req, res, next)=>{
     res.locals.isAuth = req.session.isLoggedIn;
-    // res.locals.csrfToken = req.csrfToken();
+    res.locals.csrfToken = req.csrfToken();
     next();
 
 })

@@ -339,11 +339,24 @@ textarea {
 }
 
 .login {
+  text-align: right;
+}
+
+.user-message {
+  background-color: grey;
+}
+
+.user-message-error {
+  background-color: #80808070;
+  border: 1px solid #332d2dc4;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: left;
-      -ms-flex-pack: left;
-          justify-content: left;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 1rem 1rem;
+  padding: 0.5rem;
+  border-radius: 35px;
 }
 /*# sourceMappingURL=style.css.map */

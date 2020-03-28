@@ -6,6 +6,9 @@
 
     <section class="card">
         <div class="login">
+            <% if(errorMessage){ %>
+            <div class="user-message user-message-error"><%= errorMessage %></div>
+        <% } %>
             <form action="/login" method="POST">
 
                 <div><label for="email">E-mail</label>
@@ -19,7 +22,7 @@
 
 
                 <div>
-                 
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button class="btn" type="submit">Submit</button>
                 </div>
             </form>
