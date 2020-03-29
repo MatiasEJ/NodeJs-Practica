@@ -95,6 +95,7 @@ exports.postEditProduct = (req,res,next)=>{
 
     Product.findById(prodId)
     .then(product=>{
+        //User Protection
         if(product.userId !== req.user._id){
             return res.redirect('/');
         }

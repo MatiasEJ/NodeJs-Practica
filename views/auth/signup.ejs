@@ -6,20 +6,34 @@
 
   <section class="card">
     <div class="login">
-      <form action="/signup" method="POST">
+      <% if(errorMessage){ %>
+        <div class="user-message user-message-error"><%= errorMessage %></div>
+        <% } %>
+      <form action="/signup" method="POST" novalidate>
        
         <div>
           <label for="email">E-mail</label>
-          <input type="text" name="email" id="email" value="">
+          <input 
+            class="<%= validationErrors.find(e=> e.param === 'email' ) ? 'invalid' : '' %>" 
+            type="email" 
+            name="email" 
+            id="email" 
+            value="
+            <%= oldInput.email %>"
+          >
         </div>
 
         <div>
           <label for="password">Password</label>
-          <input type="password" name="password" id="password">
+          <input 
+          class="<%= validationErrors.find(e=> e.param === 'password' ) ? 'invalid' : '' %>"
+          type="password" name="password" id="password" value="<%= oldInput.password %>">
         </div>
         <div>
           <label for="confirmPassword">Confirm Password</label>
-          <input type="confirmPassword" name="confirmPassword" id="confirmPassword">
+          <input 
+          class="<%= validationErrors.find(e=> e.param === 'confirmPassword' ) ? 'invalid' : '' %>"
+          type="password" name="confirmPassword" id="confirmPassword" value="<%= oldInput.confirmPassword %>">
         </div>
 
 
