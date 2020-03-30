@@ -7,29 +7,29 @@
     <section class="card">
         <div class="login">
             <% if(errorMessage){ %>
-            <div class="user-message user-message-error"><%= errorMessage[0] %></div>
+            <div class="user-message user-message-error"><%= errorMessage %></div>
             <% } %>
             <form action="/login" method="POST">
 
-                <div>
-                    <label for="email">E-mail</label>
-                    <input 
+               
+                    <div><label for="email">E-mail</label>
+                    <input
                     class="<%= validationErrors.find(e=> e.param === 'email' ) ? 'invalid' : '' %>"
                     type="text"
-                    name="email" 
-                    id="email" 
+                    name="email"
+                    id="email"
                     value="<%= oldInput.email %>"
-                    >
-                </div>
+                    ></div>
 
-                <div><label for="password">Password</label>
-                    <input 
+                    <div><label for="password">Password</label>
+                    <input
                     class="<%= validationErrors.find(e=> e.param === 'password' ) ? 'invalid' : '' %>"
-                    type="password" 
-                    name="password" 
+                    type="password"
+                    name="password"
                     id="password"
-                    value="<%= oldInput.password %>>
-                </div>
+                    value="<%= oldInput.password %>"
+                    >
+                    </div>
 
 
 

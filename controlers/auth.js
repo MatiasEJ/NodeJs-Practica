@@ -18,10 +18,7 @@ let options = {
 const transporter = nodemailer.createTransport(sgTransport(options));
 
 
-/**
- * 
- * LOGIN */
-
+/* LOGIN */
 exports.getLogin = (req, res, next) => {
   let message = req.flash('error', 'Error en Login');
   if (message.length > 0) {
@@ -34,7 +31,8 @@ exports.getLogin = (req, res, next) => {
     pageTitle: 'LogIn',
     errorMessage: message, 
     oldInput: {
-      emai: "",password: "", confirmPassword: ""
+      emai: "",
+      password: "",
     },
     validationErrors: []
   });
@@ -46,15 +44,16 @@ exports.postLogin = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-  
+    console.log(errors.array()[0].msg)
     return res.status(422).render('auth/login', {
       path: '/login',
       pageTitle: 'login',
       errorMessage: errors.array()[0].msg, 
       oldInput: {
-        emai: "",password: "", confirmPassword: ""
+        emai: email,
+        password: password
       },
-      validationErrors: []
+      validationErrors: errors.array()
     });
   }
 
@@ -67,7 +66,9 @@ exports.postLogin = (req, res, next) => {
           pageTitle: 'login',
           errorMessage: "Invalid mail or password", 
           oldInput: {
-            emai: "",password: "", confirmPassword: ""
+            emai: email,
+            password: password,
+            
           },
           validationErrors: []
         });
@@ -92,7 +93,8 @@ exports.postLogin = (req, res, next) => {
               pageTitle: 'login',
               errorMessage: "Invalid password", 
               oldInput: {
-                emai: "",password: "", confirmPassword: ""
+                emai: email,
+                password: password,
               },
               validationErrors: []
             });
@@ -112,6 +114,7 @@ exports.postLogin = (req, res, next) => {
     );
 };
 
+/* LOGOUT */
 exports.postLogout = (req, res, next) => {
 
   req.session.destroy((err) => {
@@ -123,10 +126,7 @@ exports.postLogout = (req, res, next) => {
 
 };
 
-
-/**
- **LOGOUT
- **/
+/* SIGNUP */
 exports.getSignup = (req, res, next) => {
   let message = req.flash('error', 'Error en newPass');
   if (message.length > 0) {
@@ -135,14 +135,30 @@ exports.getSignup = (req, res, next) => {
     message = null;
   }
 
-  const errors = validationResult(req);
+  // const errors = validationResult(req);
+
+  // if (!errors.isEmpty()) {
+  //   return res.status(422).render('auth/login', {
+  //     path: '/login',
+  //     pageTitle: 'login',
+  //     errorMessage: errors.array()[0].msg, 
+  //     oldInput: {
+  //       emai: "",
+  //       password: "", 
+  //       confirmPassword: ""
+  //     },
+  //     validationErrors: []
+  //   });
+  // }
 
   res.render('auth/signup', {
     path: '/signup',
     pageTitle: 'signup',
     errorMessage: message, 
     oldInput: {
-      emai: "",password: "", confirmPassword: ""
+      emai: "",
+      password: "", 
+      confirmPassword: ""
     },
     validationErrors: []
   });
@@ -150,31 +166,34 @@ exports.getSignup = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
-const email = req.body.email;
-const password = req.body.password;
-
-const errors = validationResult(req);
-
-if (!errors.isEmpty()) {
-
-  return res
-  .status(422)
-  .render('auth/signup', {
-    path: '/signup',
-    pageTitle: 'signup',
-    errorMessage: errors.array()[0].msg,
-    oldInput: { email: email, password: password, confirmPassword: req.body.confirmPassword},
-    validationErrors: errors.array()
-  });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+    .status(422)
+    .render('auth/signup', {
+      path: '/signup',
+      pageTitle: 'signup',
+      errorMessage: errors.array()[0].msg,
+      oldInput: { 
+        email: email,
+        password: password,
+        confirmPassword: req.body.confirmPassword
+      },
+      validationErrors: errors.array()
+    });
 }
 
 let mailSignup = {
   to: email,
   from: process.env.DIR_MYMAIL,
   subject: 'SIGNUP correctin',
-  text: 'Todo buenardo amigardo',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+  html: `
+    <h1> LA SIGNACION A SIDO CORRECTEADA </h1>
+    <strong> Esperemos que no la caguen en los proximos pasos <strong>
+  `,
 }
 
 bcrypt
@@ -183,9 +202,7 @@ bcrypt
     const user = new User({
       email: email,
       password: hashPassword,
-      cart: {
-        items: []
-      }
+      cart: { items: [] }
     });
     return user.save();
   })

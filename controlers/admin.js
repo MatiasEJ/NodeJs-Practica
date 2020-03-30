@@ -1,10 +1,16 @@
 const Product = require('../model/product');
-// const user = require('../model/user');
-// const mongodb = require('mongodb');
-// const getDb = require('../util/mongodb').getDb;
+const { validationResult } = require('express-validator');
 
-// const ObjectId = mongodb.ObjectID;
 
+exports.getAddProduct = (req, res, next) => {
+    res.render('admin/add-product',{
+        pageTitle: 'Add Product', 
+        path: '/admin/add-product',
+        editing: false,
+        errorMessage: null, 
+        validationErrors: []
+    });
+};
 
 exports.postAddProduct =  (req, res, next) => {
     const title = req.body.title;
@@ -12,12 +18,36 @@ exports.postAddProduct =  (req, res, next) => {
     const price = req.body.price;
     const description = req.body.description;
     
-    const product = new Product({
-      title:title,
-      price:price,
-      description:description,
-      imageUrl:imageUrl
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+    return res
+    .status(422)
+    .render('admin/edit-product', {
+        path: '/admin/edit-product',
+        pageTitle: 'Add Product',
+        editing: false, 
+        errorMessage: errors.array()[0].msg,
+        validationErrors: errors.array(),
+        product:{
+            title:title,
+            price:price,
+            description:description,
+            imageUrl:imageUrl
+        }
+
     });
+    }
+
+    const product = new Product({
+        title:title,
+        price:price,
+        description:description,
+        imageUrl:imageUrl, 
+        userId: req.user
+      });
+
     product
       .save()
       .then(result =>{
@@ -35,21 +65,19 @@ exports.postAddProduct =  (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
 
-    Product.find()
+    Product.find({ userId: req.user._id })
     //ver solo productos de usuario { userId: req.user._id }
     //seleccionar info
     //.select('title price - _id')
     //obtener info del usuario
     // .populate('userId', 'name')
     .then(products=>{
-
         res.render('admin/products',{
             prods: products,
             pageTitle: 'Admin Products', 
             path:'/admin/products',
-             
-        })
-      
+            
+        })  
     })
     .catch( (err) => {
         const error = new Error(err);
@@ -59,13 +87,6 @@ exports.getProducts = (req, res, next) => {
       );    
 };
 
-exports.getAddProduct = (req, res, next) => {
-    res.render('admin/add-product',{
-        pageTitle: 'Add Product', 
-        path: '/admin/add-product',
-        editing: false,
-    });
-};
 
 exports.getEditProduct = (req, res, next) => {
     // res.sendFile(path.join(rootDir,'views','add-product.html'));

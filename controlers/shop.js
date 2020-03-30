@@ -1,6 +1,20 @@
 const Product = require('../model/product');
 const Order = require('../model/order');
 
+exports.getIndex = (req, res, next) => {
+  Product.find()
+    .then(products => {
+      res.render('shop/index', {
+        prods: products,
+        pageTitle: 'Shop',
+        path: '/',
+         
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 exports.getProducts = (req, res, next) => {
   Product.find()
     .then(products => {
@@ -31,20 +45,6 @@ exports.getProduct = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.getIndex = (req, res, next) => {
-  Product.find()
-    .then(products => {
-      res.render('shop/index', {
-        prods: products,
-        pageTitle: 'Shop',
-        path: '/',
-         
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    });
-};
 
 exports.getCart = (req, res, next) => {
   req.user
@@ -77,7 +77,7 @@ exports.postCart = (req, res, next) => {
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   req.user
-    .removeFromCart(prodId)
+    .deleteItemFromCart(prodId)
     .then(result => {
       res.redirect('/cart');
     })

@@ -14,14 +14,12 @@ const MongoDBStore = require('connect-mongodb-session')(session)
 const csrf = require('csurf');
 const flash = require('connect-flash');
 
-
-
 const store = new MongoDBStore({
     uri: process.env.DIR_MONGO, 
     collection: 'sessions'
 })
-
 const csrfProtection = csrf();
+
 app.use(flash());
 
 app.use(bodyParser.urlencoded({
@@ -52,8 +50,13 @@ app.use(session({
     store: store
 }))
 
-//PROTECTION
+//PROTECTION CSRF
 app.use(csrfProtection);
+app.use( (req, res, next)=>{
+    res.locals.isAuth = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+})
 
 app.use( (req, res, next)=>{
     if(!req.session.user){
@@ -68,16 +71,10 @@ app.use( (req, res, next)=>{
             next();
         })
         .catch(err=>{
-            throw new Error(err);
+            next(new Error(err));
         }); 
 })
 
-app.use( (req, res, next)=>{
-    res.locals.isAuth = req.session.isLoggedIn;
-    res.locals.csrfToken = req.csrfToken();
-    next();
-
-})
 
 
 /* ROUTES */
@@ -89,7 +86,13 @@ app.use(authRoutes);
 app.use(errorController.errorHand);
 app.use(errorController.get500);
 app.use( (error, req, res, next) => {
-    res.redirect('500');
+    res
+    .status(500)
+    .render('500',{
+      pageTitle:'Error 500',
+      path: '/500',
+      isAuth: req.session.inLoggedIn
+      });
 });
 
 /* SERVER CONNECTION */

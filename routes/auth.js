@@ -34,16 +34,18 @@ router.post('/signup',
     check('email')
     .isEmail()
     .withMessage('Please enter valid E-mail')
-    .custom((value, { req }) => {
-      // if (value === 'test@test.com') {
-      //   throw new Error('Este email esta prohibido ')
-      // }
-      User.findOne({email: value})
-      .then(userDoc => {
-        if(userDoc){
-          return Promise.reject('Email ya existe');
-      }});
-    })
+    // .custom((value, { req }) => {
+    //   // if (value === 'test@test.com') {
+    //   //   throw new Error('Este email esta prohibido ')
+    //   // }
+    //   User.findOne({email: value})
+    //   .then(userDoc => {
+    //     if(userDoc){
+    //       return Promise.reject('Email ya existe');
+    //     }
+        
+    //   });
+    // })
     .normalizeEmail()
     .trim(),
     body('password', 'password with 5 chars, alfa num')
