@@ -24,7 +24,12 @@ exports.postAddProduct =  (req, res, next) => {
           console.log("Producto creado!!", result.title);
           res.redirect('/admin/products');
       })
-      .catch(err=>console.log(err));
+      .catch( (err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+        }
+      );
     
 };
 
@@ -46,17 +51,19 @@ exports.getProducts = (req, res, next) => {
         })
       
     })
-    .catch((e)=>console.log("Erro en obtener prods: ",e));    
+    .catch( (err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+        }
+      );    
 };
 
 exports.getAddProduct = (req, res, next) => {
-    
-
-    res.render('admin/add-product',
-    {pageTitle: 'Add Product', 
-    path: '/admin/add-product',
-    editing: false,
-     
+    res.render('admin/add-product',{
+        pageTitle: 'Add Product', 
+        path: '/admin/add-product',
+        editing: false,
     });
 };
 
@@ -65,12 +72,12 @@ exports.getEditProduct = (req, res, next) => {
     const editMode = req.query.edit;
     if(!editMode){
         return res.redirect('/');
-
     }
     const prodId = req.params.productId;
     Product.findById(prodId)
     .then(product => {
         if(!product){
+            //no product
             res.redirect('/');
         } 
         res.render('admin/edit-product', {
@@ -82,7 +89,12 @@ exports.getEditProduct = (req, res, next) => {
         
         })
     })
-    .catch(err=>console.log("error en edicion",err));
+    .catch( (err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+        }
+      );
    
 };
 
@@ -109,9 +121,14 @@ exports.postEditProduct = (req,res,next)=>{
                 console.log("Editado Correcto");
                 res.redirect('/admin/products');
             })
-            .catch(e=>console.log("Error editando: ",e));
+            .catch(e=>console.log("Error salvado edit:",e));
     })
-    .catch(e=>console.log("Error editando: ",e));
+    .catch( (err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+        }
+      );
    
 
 }
@@ -123,7 +140,12 @@ exports.postDeleteProduct = (req,res,next)=>{
     .then(()=>{
         console.log("producto borrado")
         res.redirect('/admin/products');
-    }).catch(e=>console.log("borrado de",e)); //agregar callbacks!
+    }).catch( (err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+        }
+      ); //agregar callbacks!
     
 
 

@@ -104,7 +104,12 @@ exports.postLogin = (req, res, next) => {
       }
     })
 
-    .catch(err => console.log('error en postLogin', err));
+    .catch( (err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+      }
+    );
 };
 
 exports.postLogout = (req, res, next) => {
@@ -190,9 +195,19 @@ bcrypt
     /**ENVIO DE MAIL **/
     return transporter
       .sendMail(mailSignup)
-      .catch(e => console.log('error en mail: ', e))
+      .catch( (err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+        }
+      )
   })
-  .catch(e => console.log(e));
+  .catch( (err) => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+    }
+  );
 
 };
 
@@ -250,9 +265,19 @@ exports.postReset = (req, res, next) => {
         res.redirect('/login');
         return transporter
           .sendMail(mailReset)
-          .catch(e => console.log('error en mail de reset ', e))
+          .catch( (err) => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+            }
+          )
       })
-      .catch(e => console.log(e))
+      .catch( (err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+        }
+      )
 
   });
 
@@ -285,7 +310,12 @@ exports.getNewPass = (req, res, next) => {
 
 
     })
-    .catch(e => console.log(e));
+    .catch( (err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+      }
+    );
 
 
 
@@ -319,7 +349,12 @@ exports.postNewPass = (req, res, next) => {
       //confirmar reseteo.
       res.redirect('/login')
     })
-    .catch(e => console.log(e))
+    .catch( (err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+      }
+    )
 
 
 }

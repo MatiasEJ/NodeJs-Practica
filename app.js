@@ -39,7 +39,6 @@ const mongoose = require('mongoose');
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-/* ROUTES */
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
@@ -61,11 +60,16 @@ app.use( (req, res, next)=>{
        return next();
     }
     User.findById(req.session.user._id)
-    .then(user=>{
-        req.user = user; //mongoose model.    
-        next();
-    })
-    .catch(err=>console.log('error en user session', err)); 
+        .then(user=>{
+            if(!user){
+                return next();
+            }
+            req.user = user; //mongoose model.    
+            next();
+        })
+        .catch(err=>{
+            throw new Error(err);
+        }); 
 })
 
 app.use( (req, res, next)=>{
@@ -75,13 +79,18 @@ app.use( (req, res, next)=>{
 
 })
 
+
+/* ROUTES */
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
 /* ERROR HANDLING */
 app.use(errorController.errorHand);
-
+app.use(errorController.get500);
+app.use( (error, req, res, next) => {
+    res.redirect('500');
+});
 
 /* SERVER CONNECTION */
 mongoose
@@ -92,10 +101,8 @@ mongoose
         }
     )
     .then(result => {
-        console.clear();
         
         console.log(`Conectado a puerto: ${port}`)
-
         app.listen(port);
 
     })

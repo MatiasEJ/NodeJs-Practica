@@ -14,7 +14,20 @@ router.get('/signup', authControler.getSignup);
 
 
 //POST
-router.post('/login', authControler.postLogin);
+router.post('/login',[
+  check('email')
+  .isEmail()
+  .withMessage('Please enter valid E-mail')
+  .normalizeEmail(),
+  body('password', 'password with 5 chars, alfa num')
+  .isLength({
+    min: 5
+  })
+  .isAlphanumeric()
+  .trim(),
+  
+
+], authControler.postLogin);
 router.post('/logout', authControler.postLogout);
 router.post('/signup',
   [
@@ -30,7 +43,9 @@ router.post('/signup',
         if(userDoc){
           return Promise.reject('Email ya existe');
       }});
-    }),
+    })
+    .normalizeEmail()
+    .trim(),
     body('password', 'password with 5 chars, alfa num')
     .isLength({
       min: 5
