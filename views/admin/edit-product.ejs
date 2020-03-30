@@ -4,16 +4,33 @@
     <%-include('../includes/nav.ejs') %>
 
     <section class="card">
-        <div class="productos">
-                <form action="/admin/<% if(editing){%>edit-product<%} else {%>add-product<%} %> " method="POST">
+        <div class="productos forma">
+                <form 
+                    class="forma"
+                    action="/admin/<% if(editing){%>edit-product<%} else {%>add-product<%} %> " 
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
                     
-                    <div><label for="title">Title</label>
+                    <div>
+                        <label for="title">Title</label>
                         <input type="text" name="title" id="title" value="<%if(editing){%><%= product.title%><%}%>">
                     </div>
                         
-                    <div><label for="imgUrl">Image</label>
+                    <!-- <div>
+                        <label for="imgUrl">Image</label>
                         <input type="text" name="imgUrl" id="imgUrl" value="<%if(editing){%><%=product.imageUrl%><%}%>">
+
+                    </div> -->
+                    <div>
+                        <label for="imgUrl">Image</label>
+                        <input 
+                            type="file"
+                            name="image"
+                            id="image"
+                        >
                     </div>
+
         
                     <div><label for="price">Price</label>
                         <input type="text" name="price" id="price" value="<%if(editing){%><%=product.price%><%}%>"></div>
