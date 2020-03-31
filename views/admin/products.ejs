@@ -14,7 +14,7 @@
 
             <div class="prod">
                 <div class="imag">
-                    <img src="<%= product.imageUrl %>" alt="imagen">
+                    <img src="/<%= product.imageUrl %>" alt="imagen">
 
                 </div>
                 <div class="item">
@@ -29,8 +29,9 @@
                 <div class="opt">
                         <a href="/admin/edit-product/<%=product._id%>?edit=true" class="btn">EDIT</a>
                          
-                    <form action="/admin/edit-product" method="POST">
+                    <form action="/admin/delete-product" method="POST">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        
                         <input type="hidden" value="<%= product._id %>" name="productId"> 
                         <button type="submit"   class="btn">delete</button>
                         

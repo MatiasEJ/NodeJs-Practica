@@ -11,7 +11,7 @@
                     method="POST"
                     enctype="multipart/form-data"
                 >
-                    
+             
                     <div>
                         <label for="title">Title</label>
                         <input type="text" name="title" id="title" value="<%if(editing){%><%= product.title%><%}%>">
@@ -42,9 +42,11 @@
 
                         <div >
                             <%if(editing){%>
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                
                                 <input type="hidden" value="<%=product._id%>" name="productId">  
                             <%}%>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            
                                 <button class="btn" type="submit"><% if(editing){%>Update Product<%} else {%>Add Product<%} %></button>
                         </div>
                 </form>
