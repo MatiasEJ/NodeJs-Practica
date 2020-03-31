@@ -16,7 +16,7 @@
             <div class="orden">
 
               
-                    <div class="nombre_orden"> Order: <%= order._id%> </div>
+                    <div class="nombre_orden"> Order: <%= order._id%> - <a href="/orders/<%= order._id %>">invoice</a></div>
                   
 
                             <div class="items_orden"><% order.products.forEach( p => {%>
