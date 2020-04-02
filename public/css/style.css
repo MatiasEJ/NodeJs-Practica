@@ -383,4 +383,9 @@ textarea {
 .forma div label {
   display: block;
 }
+
+.pagination {
+  text-align: center;
+  display: inline;
+}
 /*# sourceMappingURL=style.css.map */

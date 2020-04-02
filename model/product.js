@@ -22,7 +22,8 @@ const productSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User' //Relaciona al modelo
-  } 
+  }, 
+  
 
 });
 

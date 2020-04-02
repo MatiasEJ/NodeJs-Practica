@@ -9,7 +9,7 @@
             <h1>Detalles de producto</h1>
             <div class="prod">
                 <div class="imag">
-                    <h1> <img src="<%= product.imageUrl %>" alt="imagen"></h1>
+                    <h1> <img src="/<%= product.imageUrl %>" alt="imagen"></h1>
 
                 </div>
                 <div class="item">
@@ -17,7 +17,7 @@
                     <h1> id: <%= product.id %> </h1>
                     <h1> precio: <%= product.price %> </h1>
                     <h1> descripcion: <%= product.description %> </h1>
-
+                    <h1> Propietario: <%= userEmail %> </h1>
                 </div>
                 <div class="opt">
                     <% if(isAuth) { %>

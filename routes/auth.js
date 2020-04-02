@@ -46,7 +46,6 @@ router.post('/signup',
         
     //   });
     // })
-    .normalizeEmail()
     .trim(),
     body('password', 'password with 5 chars, alfa num')
     .isLength({

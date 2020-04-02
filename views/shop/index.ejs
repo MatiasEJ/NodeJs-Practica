@@ -5,41 +5,58 @@
     <%- include('../includes/nav.ejs') %>
 
     <section class="card">
-            <div class="productos">
-                    <h1>Bienvenidos a libroLandia</h1>
-                    <p>Lista de todos los productos imaginarios que tenemos.</p>
-                    <!-- JS -->
-                    <% if (prods.length > 0 ){%>
-                    <% for (let product of prods){%>
-        
-                    <div class="prod">
-                        <div class="imag">
-                            <img src="/<%= product.imageUrl %>" alt="imagen">
-                        </div>
-                        <div class="item">
-                            <h1> titulo: <%= product.title %> </h1>
-                            <h1> id: <%= product.id %> </h1>
-                            <h1> precio: <%= product.price %> </h1>
-                            <h1> descripcion: <%= product.description %> </h1>
-        
-                        </div>
-                        <div class="opt">
-                            <a class="btn" href="/products/<%=product._id%>" class="btn">DETAILS</a>
-                            <% if(isAuth) { %>
-                            <form action="/cart" method="POST">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <button type="submit" class="btn">ADD TO CART</button>
-                                <input type="hidden" name="productId" value="<%= product._id %>">
-                            </form>
-                            <%}%>
+        <div class="productos">
+            <h1>Bienvenidos a libroLandia</h1>
+            <p>Lista de todos los productos imaginarios que tenemos.</p>
+            <!-- JS -->
+            <% if (prods.length > 0 ){%>
+            <% for (let product of prods){%>
+
+            <div class="prod">
+                <div class="imag">
+                    <img src="/<%= product.imageUrl %>" alt="imagen">
+                </div>
+                <div class="item">
+                    <h1> titulo: <%= product.title %> </h1>
+                    <h1> id: <%= product.id %> </h1>
+                    <h1> precio: <%= product.price %> </h1>
+                    <h1> descripcion: <%= product.description %> </h1>
+
+                </div>
+                <div class="opt">
+                    <a class="btn" href="/products/<%=product._id%>" class="btn">DETAILS</a>
+                    <% if(isAuth) { %>
+                    <form action="/cart" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit" class="btn">ADD TO CART</button>
+                        <input type="hidden" name="productId" value="<%= product._id %>">
+                    </form>
+                    <%}%>
                         </div>
                     </div>
-        
+                   
                     <%}%>
                     <%}else{%>
                     <h1>No product found</h1>
                     <%}%>
-                    </div>
+                </div>
+                <section class="pagination">
+                    <% if(hasPreviousPage){ %>
+                        <a href="/?page=<%= previousPage%>"> < </a>
+                    <%}%>  
+                    <% if( currentPage !== 1){ %>
+                        <a href="/?page=1">1</a>
+                    <%}%>
+                        <a href="/?page=<%= currentPage%>">Current Page</a>
+                    <% if(hasNextPage){ %>
+                        <a href="/?page=<%= nextPage%>"> > </a>
+                    <%}%>    
+                    <% if(lastPage){ %> 
+                        <a href="/?page=<%= lastPage%>">Last Page</a>
+                    <%}%>       
+
+
+                </section>
     
     </section>
 <%- include('../includes/end.ejs') %>
