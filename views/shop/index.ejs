@@ -8,7 +8,7 @@
         <div class="productos">
             <h1>Bienvenidos a libroLandia</h1>
             <p>Lista de todos los productos imaginarios que tenemos.</p>
-            <!-- JS -->
+            
             <% if (prods.length > 0 ){%>
             <% for (let product of prods){%>
 
@@ -36,27 +36,15 @@
                     </div>
                    
                     <%}%>
+                    
+
                     <%}else{%>
                     <h1>No product found</h1>
                     <%}%>
+
+                    <%- include('../includes/pagination.ejs', , {currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage, hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage}) %>
                 </div>
-                <section class="pagination">
-                    <% if(hasPreviousPage){ %>
-                        <a href="/?page=<%= previousPage%>"> < </a>
-                    <%}%>  
-                    <% if( currentPage !== 1){ %>
-                        <a href="/?page=1">1</a>
-                    <%}%>
-                        <a href="/?page=<%= currentPage%>">Current Page</a>
-                    <% if(hasNextPage){ %>
-                        <a href="/?page=<%= nextPage%>"> > </a>
-                    <%}%>    
-                    <% if(lastPage){ %> 
-                        <a href="/?page=<%= lastPage%>">Last Page</a>
-                    <%}%>       
 
-
-                </section>
     
     </section>
 <%- include('../includes/end.ejs') %>

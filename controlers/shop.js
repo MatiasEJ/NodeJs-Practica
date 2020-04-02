@@ -6,10 +6,10 @@ const path = require('path');
 const PDFDocument = require('pdfkit')
 
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 1;
 
 exports.getIndex = (req, res, next) => {
-  const page = Number.parseInt(req.query.page);
+  const page = +req.query.page || 1;
   let totalItems;
 
   Product.find().countDocuments()
