@@ -19,7 +19,7 @@
                         </div>
                         <div class="item">
                             <h1> titulo: <%= product.title %> </h1>
-                            <h1> id: <%= product.id %> </h1>
+                           
                             <h1> precio: <%= product.price %> </h1>
                             <h1> descripcion: <%= product.description %> </h1>
                          
@@ -44,5 +44,6 @@
                     <%}%>
                     </div>
     
+                    <%- include('../includes/pagination.ejs', {currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage, hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage}) %>
     </section>
 <%- include('../includes/end.ejs') %>

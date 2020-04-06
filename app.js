@@ -1,5 +1,6 @@
 
 require('dotenv').config()
+const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const session = require('express-session')
@@ -14,7 +15,19 @@ const store = new MongoDBStore({
     uri: process.env.DIR_MONGO, 
     collection: 'sessions'
 })
+const helmet = require('helmet');
+const compression = require('compression');
+// const morgan = require('morgan');
 const csrfProtection = csrf();
+
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname, 'access.log'),
+    { flags: 'a'}
+)
+
+app.use(helmet());
+// app.use(morgan('combined', {stream: accessLogStream}));
+app.use(compression());
 app.use(flash());
 
 var storage = multer.diskStorage({
