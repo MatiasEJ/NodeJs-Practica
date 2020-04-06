@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production node app.js",
     "start-server": "node app.js",
-    "start:dev": "nodemon app.js"
+    "start:dev": "nodemon app.js",
+    "preinstall": "npx npm-force-resolutions",
+    "heroku-prebuild": "npx npm-force-resolutions"
   },
   "author": "Me",
   "license": "ISC",
@@ -44,8 +46,7 @@
   },
   "devDependencies": {
     "minimist": "^1.2.5",
-    "nodemon": "^1.19.4",
-    "ejs": "^2.7.4"
+    "nodemon": "^1.19.4"
   },
   "resolutions": {
     "minimist": "^1.2.5",
