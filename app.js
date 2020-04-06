@@ -20,10 +20,10 @@ const compression = require('compression');
 // const morgan = require('morgan');
 const csrfProtection = csrf();
 
-const accessLogStream = fs.createWriteStream(
-    path.join(__dirname, 'access.log'),
-    { flags: 'a'}
-)
+// const accessLogStream = fs.createWriteStream(
+//     path.join(__dirname, 'access.log'),
+//     { flags: 'a'}
+// )
 
 app.use(helmet());
 // app.use(morgan('combined', {stream: accessLogStream}));

@@ -3,4 +3,4 @@ node_modules/
 images
 .DS_Store
 data
-*.loggin
+access.log
