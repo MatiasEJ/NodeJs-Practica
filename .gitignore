@@ -1,6 +1,5 @@
 node_modules/
 .env
-images
+
 .DS_Store
-data
-access.log
+
