@@ -129,7 +129,7 @@ app.use(errorController.get500);
 
 /* SERVER CONNECTION */
 mongoose
-    .connect(process.env.DIR_MONGO, 
+    .connect(`${process.env.DIR_MONGO}`, 
         {
         useNewUrlParser: true,
         useUnifiedTopology: true
