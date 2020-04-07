@@ -189,10 +189,10 @@ exports.postSignup = (req, res, next) => {
 let mailSignup = {
   to: email,
   from: process.env.DIR_MYMAIL,
-  subject: 'SIGNUP correctin',
+  subject: 'Confirmacion de subscripcion a MercaditApp',
   html: `
-    <h1> LA SIGNACION A SIDO CORRECTEADA </h1>
-    <strong> Esperemos que no la caguen en los proximos pasos <strong>
+    <h1>Subscripción realizada con éxito.</h1>
+    <strong>En breve estaremos ampliando nuestras funcionalidades.<strong>
   `,
 }
 
@@ -256,12 +256,10 @@ exports.postReset = (req, res, next) => {
     let mailReset = {
       to: email,
       from: process.env.DIR_MYMAIL,
-      subject: 'RESETEO DE PASSWORD correctin',
-      text: 'Todo buenardo amigardo',
+      subject: 'Confirmación de RESET de Password de MercaditApp',
       html: `
-        <strong>Testeando multilinea</strong>
-        <h1>QUE ONDASSS</h1>
-        <a href="http://localhost:3000/reset/${token}"> LINK DE RESETEO </a>
+        <h1>Click en el Link para confirmar el reset de password.</h1>
+        <a href="https://mercaditapp.herokuapp.com/reset/${token}"> LINK DE RESETEO </a>
         `,
     };
     User.findOne({

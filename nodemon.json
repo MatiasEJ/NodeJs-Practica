@@ -1,0 +1,7 @@
+{
+  "env":{
+    "DIR_MONGO":"mongodb+srv://diego:sarasa123@cluster0-y5edh.mongodb.net/Shop",
+    "DIR_MAIL":"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",
+    "DIR_MYMAIL": "don.juncos@gmail.com"
+  }
+}
