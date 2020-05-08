@@ -1,12 +1,15 @@
 # NodeJs-Practica
-Ejercicios de NodeJs/pruebas
+Udemy Course NodeJs
 
-Idea de Tienda Online con funcionalidades en NodeJS, Express.js, MVC, Seguridad, Validación, MongoDB, Production best Practices.
+Idea de Tienda Online con funcionalidades en NodeJS, Express.js, Templating, MVC, Seguridad, Validación, MongoDB, Auth/Sessions/Validation, REST APIs, GraphQL, deploy and production best practices.
 
-Deployment automatico en Heroku desde Github. 
+Deployment en Heroku. 
 
-#:TODO:
+# :TODO:
 + Styling
 + Populate Items
 + User Tab
++ STYLING
+
+
  
