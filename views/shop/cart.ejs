@@ -12,10 +12,10 @@
                         <% products.forEach(p => {%>
                             <li>
                                 <p>
-                                    Item: <%= p.productId.title%> Cantidad: (<%= p.quantity %>)      </p>
+                                    Item: <%= p.productId.title %> Cantidad: (<%= p.quantity %>)      </p>
                                 <form action="/cart-delete-item" method="POST">
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                    <input type="hidden" value="<%=p.productId._id%>" name="productId">
+                                    <input type="hidden" value="<%=p._id%>" name="productId">
                                     <button type="submit" class="btn">Item delete</button>
 
                                 </form>
