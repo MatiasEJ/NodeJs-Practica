@@ -31,7 +31,7 @@
     "express-validator": "^6.4.0",
     "helmet": "^3.22.0",
     "lodash": "^4.17.15",
-    "marked": "^0.8.2",
+    "marked": "^4.0.10",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.7",
     "morgan": "^1.10.0",
